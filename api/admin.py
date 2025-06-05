@@ -412,4 +412,330 @@ async def get_system_config():
         
     except Exception as e:
         logger.error(f"获取配置失败: {e}")
-        raise HTTPException(status_code=500, detail="获取配置失败") 
+        raise HTTPException(status_code=500, detail="获取配置失败")
+
+
+@admin_router.get("/stats/real-time")
+async def get_real_time_stats():
+    """获取实时统计数据"""
+    try:
+        # 获取当前状态统计
+        stats = {
+            "processing": 0,
+            "queued": 0,
+            "completed_today": 0,
+            "success_rate": 0,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+        # 获取今日完成数量
+        today = datetime.utcnow().date()
+        today_results = await db_service.get_parsing_history(
+            limit=1000,
+            offset=0,
+            status="completed"
+        )
+        
+        # 计算今日完成数量
+        today_completed = 0
+        total_completed = 0
+        total_failed = 0
+        
+        for result in today_results.get("results", []):
+            created_date = result.get("created_at")
+            if created_date:
+                if isinstance(created_date, str):
+                    created_date = datetime.fromisoformat(created_date.replace('Z', '+00:00'))
+                if created_date.date() == today:
+                    today_completed += 1
+            
+            # 统计成功率
+            if result.get("status") == "completed":
+                total_completed += 1
+            elif result.get("status") == "failed":
+                total_failed += 1
+        
+        # 获取处理中和队列中的数量
+        processing_results = await db_service.get_parsing_history(
+            limit=1000,
+            offset=0,
+            status="processing"
+        )
+        queued_results = await db_service.get_parsing_history(
+            limit=1000,
+            offset=0,
+            status="queued"
+        )
+        
+        stats["processing"] = len(processing_results.get("results", []))
+        stats["queued"] = len(queued_results.get("results", []))
+        stats["completed_today"] = today_completed
+        
+        # 计算成功率
+        total_tasks = total_completed + total_failed
+        if total_tasks > 0:
+            stats["success_rate"] = round((total_completed / total_tasks) * 100, 1)
+        
+        return stats
+        
+    except Exception as e:
+        logger.error(f"获取实时统计失败: {e}")
+        return {
+            "processing": 0,
+            "queued": 0,
+            "completed_today": 0,
+            "success_rate": 0,
+            "error": str(e)
+        }
+
+
+@admin_router.get("/stats/recent-tasks")
+async def get_recent_tasks(limit: int = Query(default=5, ge=1, le=20)):
+    """获取最近的任务"""
+    try:
+        recent_results = await db_service.get_parsing_history(
+            limit=limit,
+            offset=0
+        )
+        
+        tasks = []
+        for result in recent_results.get("results", []):
+            tasks.append({
+                "file_id": result.get("document_id"),
+                "filename": result.get("filename", "未知文件"),
+                "status": result.get("status", "unknown"),
+                "created_at": result.get("created_at"),
+                "updated_at": result.get("updated_at", result.get("created_at"))
+            })
+        
+        return tasks
+        
+    except Exception as e:
+        logger.error(f"获取最近任务失败: {e}")
+        return []
+
+
+@admin_router.get("/batches")
+async def get_batches(
+    limit: int = Query(default=10, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    status: Optional[str] = Query(default=None)
+):
+    """获取批次列表"""
+    try:
+        batches = await db_service.get_batch_operations(
+            limit=limit,
+            offset=offset,
+            status=status
+        )
+        return batches
+    except Exception as e:
+        logger.error(f"获取批次列表失败: {e}")
+        raise HTTPException(status_code=500, detail="获取批次列表失败")
+
+
+@admin_router.get("/batches/{batch_id}")
+async def get_batch_detail(batch_id: str):
+    """获取批次详细信息"""
+    try:
+        batch_info = await db_service.get_batch_operation(batch_id)
+        
+        if not batch_info:
+            raise HTTPException(status_code=404, detail="批次不存在")
+        
+        # 获取批次中的文件列表
+        files_info = await db_service.get_batch_files(batch_id)
+        batch_info["files"] = files_info
+        
+        return batch_info
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"获取批次详情失败: {e}")
+        raise HTTPException(status_code=500, detail="获取批次详情失败")
+
+
+@admin_router.delete("/batches/{batch_id}")
+async def delete_batch(batch_id: str):
+    """删除批次"""
+    try:
+        success = await db_service.delete_batch_operation(batch_id)
+        
+        if not success:
+            raise HTTPException(status_code=404, detail="批次不存在")
+        
+        return {"message": "批次已删除"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"删除批次失败: {e}")
+        raise HTTPException(status_code=500, detail="删除批次失败")
+
+
+@admin_router.get("/export/batch/{batch_id}")
+async def export_batch_data(batch_id: str):
+    """导出批次数据"""
+    try:
+        batch_info = await db_service.get_batch_operation(batch_id)
+        
+        if not batch_info:
+            raise HTTPException(status_code=404, detail="批次不存在")
+        
+        # 获取批次的所有结果
+        files_info = await db_service.get_batch_files(batch_id)
+        
+        # 创建ZIP文件
+        zip_buffer = io.BytesIO()
+        
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            # 添加批次信息
+            batch_json = json.dumps(batch_info, indent=2, ensure_ascii=False, default=str)
+            zip_file.writestr(f"batch_{batch_id}_info.json", batch_json)
+            
+            # 添加每个文件的解析结果
+            for file_info in files_info:
+                if file_info.get("status") == "completed" and file_info.get("result"):
+                    file_json = json.dumps(file_info["result"], indent=2, ensure_ascii=False, default=str)
+                    safe_filename = file_info.get("filename", "unknown").replace("/", "_").replace("\\", "_")
+                    zip_file.writestr(f"results/{safe_filename}.json", file_json)
+            
+            # 添加汇总CSV
+            if files_info:
+                csv_content = create_batch_csv_summary(files_info)
+                zip_file.writestr(f"batch_{batch_id}_summary.csv", csv_content)
+        
+        zip_buffer.seek(0)
+        
+        return StreamingResponse(
+            io.BytesIO(zip_buffer.getvalue()),
+            media_type="application/zip",
+            headers={"Content-Disposition": f"attachment; filename=batch_{batch_id}.zip"}
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"导出批次数据失败: {e}")
+        raise HTTPException(status_code=500, detail="导出批次数据失败")
+
+
+@admin_router.get("/export/all")
+async def export_all_data():
+    """导出所有数据"""
+    try:
+        # 获取所有解析结果
+        all_results = await db_service.get_parsing_history(limit=10000, offset=0)
+        results = all_results.get("results", [])
+        
+        # 创建ZIP文件
+        zip_buffer = io.BytesIO()
+        
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            # 添加JSON格式的完整数据
+            json_content = json.dumps(results, indent=2, ensure_ascii=False, default=str)
+            zip_file.writestr("nutriguide_dataset_complete.json", json_content)
+            
+            # 按类型分组并创建CSV
+            by_type = {}
+            for result in results:
+                parse_type = result.get("parsing_type", "unknown")
+                if parse_type not in by_type:
+                    by_type[parse_type] = []
+                by_type[parse_type].append(result)
+            
+            for parse_type, type_results in by_type.items():
+                csv_content = create_csv_from_results(type_results)
+                zip_file.writestr(f"nutriguide_dataset_{parse_type}.csv", csv_content)
+            
+            # 添加统计摘要
+            stats = await db_service.get_parsing_stats(days=365)
+            stats_json = json.dumps(stats, indent=2, ensure_ascii=False, default=str)
+            zip_file.writestr("statistics_summary.json", stats_json)
+        
+        zip_buffer.seek(0)
+        
+        return StreamingResponse(
+            io.BytesIO(zip_buffer.getvalue()),
+            media_type="application/zip",
+            headers={"Content-Disposition": "attachment; filename=nutriguide_dataset.zip"}
+        )
+        
+    except Exception as e:
+        logger.error(f"导出全部数据失败: {e}")
+        raise HTTPException(status_code=500, detail="导出全部数据失败")
+
+
+@admin_router.post("/cleanup/completed")
+async def cleanup_completed_tasks():
+    """清理已完成的任务"""
+    try:
+        # 删除30天前的已完成任务
+        cleaned_count = await db_service.cleanup_old_results(days=30, status="completed")
+        
+        return {
+            "message": f"已清理 {cleaned_count} 个已完成的任务",
+            "cleaned_count": cleaned_count
+        }
+        
+    except Exception as e:
+        logger.error(f"清理已完成任务失败: {e}")
+        raise HTTPException(status_code=500, detail="清理任务失败")
+
+
+def create_batch_csv_summary(files_info: List[Dict]) -> str:
+    """创建批次汇总CSV"""
+    output = io.StringIO()
+    
+    fieldnames = ["filename", "status", "parsing_type", "created_at", "updated_at", "file_size"]
+    writer = csv.DictWriter(output, fieldnames=fieldnames)
+    writer.writeheader()
+    
+    for file_info in files_info:
+        writer.writerow({
+            "filename": file_info.get("filename", ""),
+            "status": file_info.get("status", ""),
+            "parsing_type": file_info.get("parsing_type", ""),
+            "created_at": file_info.get("created_at", ""),
+            "updated_at": file_info.get("updated_at", ""),
+            "file_size": file_info.get("file_size", "")
+        })
+    
+    return output.getvalue()
+
+
+def create_csv_from_results(results: List[Dict]) -> str:
+    """从解析结果创建CSV"""
+    output = io.StringIO()
+    
+    if not results:
+        return ""
+    
+    # 提取所有可能的字段
+    all_fields = set()
+    for result in results:
+        all_fields.update(result.keys())
+        # 如果有解析结果，也提取其字段
+        if result.get("result"):
+            all_fields.update([f"result_{k}" for k in result["result"].keys()])
+    
+    fieldnames = sorted(list(all_fields))
+    writer = csv.DictWriter(output, fieldnames=fieldnames)
+    writer.writeheader()
+    
+    for result in results:
+        row = {}
+        for field in fieldnames:
+            if field.startswith("result_") and result.get("result"):
+                key = field[7:]  # 移除 "result_" 前缀
+                row[field] = result["result"].get(key, "")
+            else:
+                value = result.get(field, "")
+                if isinstance(value, datetime):
+                    row[field] = value.isoformat()
+                else:
+                    row[field] = str(value) if value is not None else ""
+        writer.writerow(row)
+    
+    return output.getvalue() 

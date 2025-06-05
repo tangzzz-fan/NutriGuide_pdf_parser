@@ -28,3 +28,7 @@
 [32m2025-06-05 16:48:18[0m | [1mINFO    [0m | [36mcelery_app[0m:[36mworker_ready_handler[0m:[36m65[0m | [1m数据库服务初始化完成[0m
 [32m2025-06-05 16:48:18[0m | [1mINFO    [0m | [36mcelery_app[0m:[36mworker_ready_handler[0m:[36m67[0m | [1mCelery worker启动成功[0m
 [2025-06-05 16:48:18,005: INFO/MainProcess] celery@192.168.2.27 ready.
+
+worker: Warm shutdown (MainProcess)
+[32m2025-06-05 17:57:06[0m | [1mINFO    [0m | [36mcelery_app[0m:[36mworker_shutting_down_handler[0m:[36m79[0m | [1mCelery worker正在关闭...[0m
+[32m2025-06-05 17:57:06[0m | [1mINFO    [0m | [36mcelery_app[0m:[36mworker_shutting_down_handler[0m:[36m89[0m | [1mCelery worker关闭完成[0m

@@ -404,4 +404,66 @@ class DatabaseService:
             
         except Exception as e:
             logger.error(f"获取统计信息失败: {e}")
-            raise 
+            raise
+    
+    async def update_parsing_status(
+        self,
+        document_id: str,
+        status: Optional[str] = None,
+        progress: Optional[int] = None,
+        message: Optional[str] = None,
+        result: Optional[Dict[str, Any]] = None
+    ) -> bool:
+        """更新解析状态（专为任务状态追踪设计）"""
+        try:
+            update_data = {
+                "updated_at": datetime.utcnow()
+            }
+            
+            if status is not None:
+                update_data["status"] = status
+            if progress is not None:
+                update_data["progress"] = progress
+            if message is not None:
+                update_data["status_message"] = message
+            if result is not None:
+                update_data["result"] = result
+                # 提取质量分数
+                if isinstance(result, dict) and "quality_score" in result:
+                    update_data["quality_score"] = result["quality_score"]
+                # 提取处理时间
+                if isinstance(result, dict) and "duration" in result:
+                    update_data["processing_time"] = result["duration"]
+            
+            collection = self.db[self.collections['parsing_results']]
+            update_result = await collection.update_one(
+                {"_id": ObjectId(document_id)},
+                {"$set": update_data}
+            )
+            
+            if update_result.matched_count > 0:
+                logger.info(f"解析状态已更新: {document_id}, 状态: {status}")
+                return True
+            else:
+                logger.warning(f"未找到要更新的文档: {document_id}")
+                return False
+                
+        except Exception as e:
+            logger.error(f"更新解析状态失败: {e}")
+            return False
+
+    async def get_parsing_result_by_file_id(self, file_id: str) -> Optional[Dict[str, Any]]:
+        """根据文件ID获取解析结果"""
+        try:
+            collection = self.db[self.collections['parsing_results']]
+            result = await collection.find_one({"file_id": file_id})
+            
+            if result:
+                result["_id"] = str(result["_id"])
+                return result
+            else:
+                return None
+                
+        except Exception as e:
+            logger.error(f"根据文件ID获取解析结果失败: {e}")
+            return None 

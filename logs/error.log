@@ -13,3 +13,297 @@
 2025-06-05 16:48:23 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
 2025-06-05 16:48:48 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
 2025-06-05 16:48:48 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 17:01:13 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:01:13 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:01:18 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:01:18 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:02:15 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:15 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:30 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:30 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:02:30 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:02:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:40 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:40 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:50 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:02:50 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:00 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:03:00 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:03:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:00 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:10 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:10 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:10 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:10 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:20 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:20 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:30 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:03:30 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:03:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:30 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:40 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:40 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:50 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:03:50 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:00 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:04:00 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:04:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:00 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:10 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:10 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:10 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:10 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:20 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:20 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:30 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:04:30 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:04:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:30 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:40 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:40 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:50 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:04:50 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:05:00 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:05:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:00 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:00 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:10 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:10 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:10 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:10 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:20 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:20 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:05:30 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:05:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:30 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:30 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:40 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:40 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:50 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:05:50 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:06:00 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:06:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:00 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:00 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:10 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:10 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:10 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:10 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:20 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:20 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:06:30 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:06:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:30 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:30 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:40 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:40 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:50 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:06:50 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:07:00 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:07:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:00 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:00 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:10 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:10 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:10 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:10 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:20 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:20 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:07:30 | ERROR    | main:get_parsing_history:293 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 17:07:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:30 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:30 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:40 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:40 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:50 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 17:07:50 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:07:55 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:07:55 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:07:55 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:07:55 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:07:55 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:07:55 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:05 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:05 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:05 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:05 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:15 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:15 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:15 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:15 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:25 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:25 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:25 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:08:25 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:08:25 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:25 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:35 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:35 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:35 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:35 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:45 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:45 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:45 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:08:45 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:09:55 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:09:55 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:09:56 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:09:56 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:09:56 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:09:56 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:02 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:02 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:02 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:02 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:02 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:10:02 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:10:12 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:12 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:12 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:12 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:22 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:22 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:22 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:22 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:32 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:10:32 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:10:32 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:32 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:32 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:32 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:42 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:42 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:42 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:42 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:52 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:52 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:52 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:10:52 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:11:02 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:11:02 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:11:02 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:11:02 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:11:02 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:11:02 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:11:16 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:11:16 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:11:16 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:11:16 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:12:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:12:00 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:12:00 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:12:00 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:12:02 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:12:02 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:12:32 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:12:32 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:13:02 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:13:02 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:13:06 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:13:06 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:13:06 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:13:06 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:20 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:20 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:14:20 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:14:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:20 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:20 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:14:20 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:14:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:30 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:30 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:30 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:40 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:40 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:40 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:50 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:14:50 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:14:51 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:51 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:51 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:14:51 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:01 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:01 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:01 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:01 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:11 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:11 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:11 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:11 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:20 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:15:20 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 18:15:21 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:21 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:21 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:21 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:31 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:31 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:31 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:31 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:41 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:41 | ERROR    | api.admin:get_real_time_stats:482 | 获取实时统计失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:41 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: 'NoneType' object is not subscriptable
+2025-06-05 18:15:41 | ERROR    | api.admin:get_recent_tasks:514 | 获取最近任务失败: 'NoneType' object is not subscriptable

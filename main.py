@@ -1,6 +1,8 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
+from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 import os
 from contextlib import asynccontextmanager
 from typing import List
@@ -10,13 +12,14 @@ from datetime import datetime
 from config.settings import get_settings
 from services.pdf_parser import PDFParserService
 from services.database import DatabaseService
+from services.task_manager import init_task_manager, get_task_manager
 from models.response_models import (
     HealthResponse,
     ParseResponse,
     ProcessingStatus,
     ErrorResponse
 )
-from celery_app import parse_pdf_task
+from celery_app import parse_pdf_task, celery_app
 from utils.logger import get_logger
 from utils.validators import validate_upload_file, sanitize_filename
 from utils.middleware import (
@@ -27,6 +30,7 @@ from utils.middleware import (
     set_metrics_collector
 )
 from api.admin import admin_router
+from api.tasks import router as tasks_router
 
 # Initialize settings and logger
 settings = get_settings()
@@ -44,6 +48,11 @@ async def lifespan(app: FastAPI):
     try:
         await db_service.connect()
         logger.info("Database connected successfully")
+        
+        # Initialize task manager
+        init_task_manager(celery_app)
+        logger.info("Task manager initialized successfully")
+        
     except Exception as e:
         logger.error(f"Failed to connect to database: {e}")
         raise
@@ -65,6 +74,12 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Setup templates
+templates = Jinja2Templates(directory="templates")
 
 # Add middleware in order (last added = first executed)
 # 1. Request logging (outermost)
@@ -90,8 +105,9 @@ app.add_middleware(
     **cors_config
 )
 
-# Include admin router
+# Include routers
 app.include_router(admin_router)
+app.include_router(tasks_router)
 
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
@@ -177,13 +193,12 @@ async def parse_pdf_sync(
 
 @app.post("/parse/async")
 async def parse_pdf_async(
-    background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     parsing_type: str = "auto",
     callback_url: str = None
 ):
     """
-    Asynchronous PDF parsing - for large files
+    Asynchronous PDF parsing - for large files using enhanced task management
     """
     if not file.filename.lower().endswith('.pdf'):
         raise HTTPException(status_code=400, detail="Only PDF files are allowed")
@@ -197,23 +212,24 @@ async def parse_pdf_async(
         )
     
     try:
-        # Save uploaded file with validation
+        # Generate unique IDs
         file_id = str(uuid.uuid4())
+        document_id = str(uuid.uuid4())
+        
+        # Save uploaded file with validation
         file_path = await _save_uploaded_file(file, file_id, validate=True)
         
-        # Create database record with pending status
-        document_id = await db_service.save_parsing_result(
+        # Save initial record to database
+        await db_service.save_parsing_result(
             file_id=file_id,
             filename=file.filename,
             parsing_type=parsing_type,
-            result=None,
             status="pending"
         )
         
-        logger.info(f"Queuing async parsing for {file.filename}")
-        
-        # Queue parsing task
-        task = parse_pdf_task.delay(
+        # Submit task through task manager
+        task_manager = get_task_manager()
+        task_id = await task_manager.submit_parsing_task(
             file_path=file_path,
             file_id=file_id,
             document_id=document_id,
@@ -221,25 +237,97 @@ async def parse_pdf_async(
             callback_url=callback_url
         )
         
-        return JSONResponse(
-            status_code=202,
-            content={
-                "document_id": document_id,
-                "task_id": task.id,
-                "status": "queued",
-                "message": "PDF parsing queued for processing"
-            }
-        )
+        logger.info(f"Async parsing task submitted: {task_id} for {file.filename}")
+        
+        return {
+            "task_id": task_id,
+            "document_id": document_id,
+            "file_id": file_id,
+            "status": "pending",
+            "message": "PDF parsing task submitted successfully"
+        }
         
     except Exception as e:
-        logger.error(f"Async parsing queue failed for {file.filename}: {e}")
+        logger.error(f"Failed to submit async parsing task for {file.filename}: {e}")
         # Clean up on error
         try:
             if 'file_path' in locals() and os.path.exists(file_path):
                 os.remove(file_path)
         except:
             pass
-        raise HTTPException(status_code=500, detail=f"Failed to queue parsing: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to submit parsing task: {str(e)}")
+
+@app.post("/parse/batch")
+async def parse_pdf_batch(
+    files: List[UploadFile] = File(...),
+    parsing_type: str = "auto"
+):
+    """
+    Batch PDF parsing using enhanced task management
+    """
+    if not files:
+        raise HTTPException(status_code=400, detail="No files provided")
+    
+    if len(files) > settings.max_batch_size:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Too many files ({settings.max_batch_size} limit)"
+        )
+    
+    try:
+        batch_id = str(uuid.uuid4())
+        files_info = []
+        
+        # Process and save all files
+        for file in files:
+            if not file.filename.lower().endswith('.pdf'):
+                continue  # Skip non-PDF files
+                
+            file_id = str(uuid.uuid4())
+            document_id = str(uuid.uuid4())
+            
+            # Save file
+            file_path = await _save_uploaded_file(file, file_id, validate=True)
+            
+            # Save to database
+            await db_service.save_parsing_result(
+                file_id=file_id,
+                filename=file.filename,
+                parsing_type=parsing_type,
+                status="pending"
+            )
+            
+            files_info.append({
+                "file_id": file_id,
+                "document_id": document_id,
+                "file_path": file_path,
+                "filename": file.filename
+            })
+        
+        if not files_info:
+            raise HTTPException(status_code=400, detail="No valid PDF files found")
+        
+        # Submit batch task
+        task_manager = get_task_manager()
+        task_id = await task_manager.submit_batch_parsing_task(
+            batch_id=batch_id,
+            files_info=files_info,
+            parsing_type=parsing_type
+        )
+        
+        logger.info(f"Batch parsing task submitted: {task_id}, files: {len(files_info)}")
+        
+        return {
+            "task_id": task_id,
+            "batch_id": batch_id,
+            "status": "pending",
+            "file_count": len(files_info),
+            "message": f"Batch parsing task submitted for {len(files_info)} files"
+        }
+        
+    except Exception as e:
+        logger.error(f"Failed to submit batch parsing task: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to submit batch task: {str(e)}")
 
 @app.get("/parse/status/{document_id}", response_model=ProcessingStatus)
 async def get_parsing_status(document_id: str):
@@ -363,19 +451,32 @@ async def general_exception_handler(request, exc):
         }
     )
 
-# Root endpoint
+# Web interface route
+@app.get("/dashboard")
+async def dashboard(request: Request):
+    """Web dashboard interface"""
+    return templates.TemplateResponse("index.html", {"request": request})
+
+# Root endpoint - redirect to dashboard for web interface
 @app.get("/")
-async def root():
-    """Root endpoint with service information"""
-    return {
-        "service": "NutriGuide PDF Parser",
-        "version": "1.0.0",
-        "status": "running",
-        "environment": settings.environment,
-        "docs": "/docs",
-        "admin": "/admin",
-        "timestamp": datetime.utcnow().isoformat()
-    }
+async def root(request: Request):
+    """Root endpoint - serve web dashboard or API info based on Accept header"""
+    # Check if request is from a browser (HTML accepted)
+    accept_header = request.headers.get("accept", "")
+    if "text/html" in accept_header:
+        return templates.TemplateResponse("index.html", {"request": request})
+    else:
+        # Return API information for API clients
+        return {
+            "service": "NutriGuide PDF Parser",
+            "version": "1.0.0",
+            "status": "running",
+            "environment": settings.environment,
+            "docs": "/docs",
+            "admin": "/admin",
+            "dashboard": "/dashboard",
+            "timestamp": datetime.utcnow().isoformat()
+        }
 
 # Metrics endpoint
 @app.get("/metrics")

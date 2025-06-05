@@ -13,3 +13,25 @@
 2025-06-05 16:48:16 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
 2025-06-05 16:48:16 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
 2025-06-05 16:48:18 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:57:30 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:57:30 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:58:33 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:58:33 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:58:41 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:58:41 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:58:57 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:58:57 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:59:30 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:59:30 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:59:30 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 17:00:52 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 17:00:52 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 18:07:32 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:07:32 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:09:51 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:09:51 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:09:56 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:11:35 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:11:35 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:14:11 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:14:11 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
