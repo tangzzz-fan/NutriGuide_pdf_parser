@@ -18,6 +18,15 @@ from models.response_models import (
 )
 from celery_app import parse_pdf_task
 from utils.logger import get_logger
+from utils.validators import validate_upload_file, sanitize_filename
+from utils.middleware import (
+    RateLimitMiddleware, 
+    MetricsMiddleware, 
+    SecurityMiddleware, 
+    RequestLoggingMiddleware,
+    set_metrics_collector
+)
+from api.admin import admin_router
 
 # Initialize settings and logger
 settings = get_settings()
@@ -57,14 +66,32 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Add CORS middleware
+# Add middleware in order (last added = first executed)
+# 1. Request logging (outermost)
+if settings.is_development:
+    app.add_middleware(RequestLoggingMiddleware)
+
+# 2. Security middleware
+app.add_middleware(SecurityMiddleware)
+
+# 3. Metrics collection
+metrics_middleware = MetricsMiddleware(app)
+app.add_middleware(MetricsMiddleware)
+set_metrics_collector(metrics_middleware)
+
+# 4. Rate limiting
+if settings.rate_limit_enabled:
+    app.add_middleware(RateLimitMiddleware)
+
+# 5. CORS (innermost, closest to app)
+cors_config = settings.get_cors_config()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"] if settings.environment == "development" else [settings.backend_api_url],
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
-    allow_headers=["*"],
+    **cors_config
 )
+
+# Include admin router
+app.include_router(admin_router)
 
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
@@ -94,19 +121,24 @@ async def parse_pdf_sync(
     """
     Synchronous PDF parsing - for small files only
     """
+    # Validate file extension
     if not file.filename.lower().endswith('.pdf'):
         raise HTTPException(status_code=400, detail="Only PDF files are allowed")
     
-    if file.size > 5 * 1024 * 1024:  # 5MB limit for sync parsing
+    # Check file size for sync processing
+    if file.size and file.size > settings.max_file_size_sync:
+        max_mb = settings.max_file_size_sync / (1024 * 1024)
         raise HTTPException(
             status_code=413, 
-            detail="File too large for synchronous parsing. Use async endpoint."
+            detail=f"File too large for synchronous parsing ({max_mb}MB limit). Use async endpoint."
         )
     
     try:
-        # Save uploaded file
+        # Save uploaded file with validation
         file_id = str(uuid.uuid4())
-        file_path = await _save_uploaded_file(file, file_id)
+        file_path = await _save_uploaded_file(file, file_id, validate=True)
+        
+        logger.info(f"Starting sync parsing for {file.filename}")
         
         # Parse PDF synchronously
         result = await pdf_service.parse_pdf(file_path, parsing_type)
@@ -121,7 +153,10 @@ async def parse_pdf_sync(
         )
         
         # Clean up temporary file
-        os.remove(file_path)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        
+        logger.info(f"Sync parsing completed for {file.filename}")
         
         return ParseResponse(
             document_id=document_id,
@@ -131,7 +166,13 @@ async def parse_pdf_sync(
         )
         
     except Exception as e:
-        logger.error(f"Sync parsing failed: {e}")
+        logger.error(f"Sync parsing failed for {file.filename}: {e}")
+        # Clean up on error
+        try:
+            if 'file_path' in locals() and os.path.exists(file_path):
+                os.remove(file_path)
+        except:
+            pass
         raise HTTPException(status_code=500, detail=f"Parsing failed: {str(e)}")
 
 @app.post("/parse/async")
@@ -147,10 +188,18 @@ async def parse_pdf_async(
     if not file.filename.lower().endswith('.pdf'):
         raise HTTPException(status_code=400, detail="Only PDF files are allowed")
     
+    # Check overall file size limit
+    if file.size and file.size > settings.max_file_size:
+        max_mb = settings.max_file_size / (1024 * 1024)
+        raise HTTPException(
+            status_code=413, 
+            detail=f"File too large ({max_mb}MB limit)"
+        )
+    
     try:
-        # Save uploaded file
+        # Save uploaded file with validation
         file_id = str(uuid.uuid4())
-        file_path = await _save_uploaded_file(file, file_id)
+        file_path = await _save_uploaded_file(file, file_id, validate=True)
         
         # Create database record with pending status
         document_id = await db_service.save_parsing_result(
@@ -160,6 +209,8 @@ async def parse_pdf_async(
             result=None,
             status="pending"
         )
+        
+        logger.info(f"Queuing async parsing for {file.filename}")
         
         # Queue parsing task
         task = parse_pdf_task.delay(
@@ -181,7 +232,13 @@ async def parse_pdf_async(
         )
         
     except Exception as e:
-        logger.error(f"Async parsing failed: {e}")
+        logger.error(f"Async parsing queue failed for {file.filename}: {e}")
+        # Clean up on error
+        try:
+            if 'file_path' in locals() and os.path.exists(file_path):
+                os.remove(file_path)
+        except:
+            pass
         raise HTTPException(status_code=500, detail=f"Failed to queue parsing: {str(e)}")
 
 @app.get("/parse/status/{document_id}", response_model=ProcessingStatus)
@@ -196,43 +253,37 @@ async def get_parsing_status(document_id: str):
         return ProcessingStatus(
             document_id=document_id,
             status=result.get("status", "unknown"),
-            progress=result.get("progress", 0),
-            message=result.get("message", ""),
-            data=result.get("result"),
-            created_at=result.get("created_at"),
-            updated_at=result.get("updated_at")
+            progress=100 if result.get("status") == "completed" else 50,
+            message=result.get("error_message", "Processing"),
+            data=result.get("result")
         )
         
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to get parsing status: {e}")
-        raise HTTPException(status_code=500, detail="Failed to retrieve status")
+        logger.error(f"Get status failed for {document_id}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to get status")
 
 @app.get("/parse/history")
 async def get_parsing_history(
     limit: int = 10,
     offset: int = 0,
-    status: str = None
+    status: str = None,
+    parsing_type: str = None
 ):
     """Get parsing history"""
     try:
         history = await db_service.get_parsing_history(
             limit=limit,
             offset=offset,
-            status_filter=status
+            status=status,
+            parsing_type=parsing_type
         )
-        
-        return {
-            "total": len(history),
-            "items": history,
-            "limit": limit,
-            "offset": offset
-        }
+        return history
         
     except Exception as e:
-        logger.error(f"Failed to get parsing history: {e}")
-        raise HTTPException(status_code=500, detail="Failed to retrieve history")
+        logger.error(f"Get history failed: {e}")
+        raise HTTPException(status_code=500, detail="Failed to get history")
 
 @app.delete("/parse/{document_id}")
 async def delete_parsing_result(document_id: str):
@@ -248,52 +299,107 @@ async def delete_parsing_result(document_id: str):
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Failed to delete document: {e}")
+        logger.error(f"Delete failed for {document_id}: {e}")
         raise HTTPException(status_code=500, detail="Failed to delete document")
 
-# Helper functions
-async def _save_uploaded_file(file: UploadFile, file_id: str) -> str:
-    """Save uploaded file to disk"""
-    upload_dir = "/app/uploads"
-    os.makedirs(upload_dir, exist_ok=True)
-    
-    file_path = os.path.join(upload_dir, f"{file_id}_{file.filename}")
-    
-    with open(file_path, "wb") as buffer:
+async def _save_uploaded_file(file: UploadFile, file_id: str, validate: bool = True) -> str:
+    """Save uploaded file with optional validation"""
+    try:
+        # Sanitize filename
+        safe_filename = sanitize_filename(file.filename)
+        file_path = os.path.join(settings.upload_dir, f"{file_id}_{safe_filename}")
+        
+        # Read file content
         content = await file.read()
-        buffer.write(content)
-    
-    return file_path
+        
+        # Save file
+        with open(file_path, "wb") as f:
+            f.write(content)
+        
+        # Validate if requested
+        if validate:
+            is_valid, error, file_info = validate_upload_file(file_path, file.filename)
+            if not is_valid:
+                # Clean up invalid file
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                raise ValueError(f"File validation failed: {error}")
+            
+            logger.info(f"File validated successfully: {file_info}")
+        
+        return file_path
+        
+    except Exception as e:
+        # Clean up on any error
+        if 'file_path' in locals() and os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except:
+                pass
+        raise
 
-# Error handlers
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
+    """Handle HTTP exceptions"""
     return JSONResponse(
         status_code=exc.status_code,
-        content=ErrorResponse(
-            error=exc.detail,
-            status_code=exc.status_code,
-            timestamp=datetime.utcnow()
-        ).dict()
+        content={
+            "error": exc.detail,
+            "status_code": exc.status_code,
+            "timestamp": datetime.utcnow().isoformat()
+        }
     )
 
 @app.exception_handler(Exception)
 async def general_exception_handler(request, exc):
+    """Handle general exceptions"""
     logger.error(f"Unhandled exception: {exc}")
     return JSONResponse(
         status_code=500,
-        content=ErrorResponse(
-            error="Internal server error",
-            status_code=500,
-            timestamp=datetime.utcnow()
-        ).dict()
+        content={
+            "error": "Internal server error",
+            "status_code": 500,
+            "timestamp": datetime.utcnow().isoformat()
+        }
     )
+
+# Root endpoint
+@app.get("/")
+async def root():
+    """Root endpoint with service information"""
+    return {
+        "service": "NutriGuide PDF Parser",
+        "version": "1.0.0",
+        "status": "running",
+        "environment": settings.environment,
+        "docs": "/docs",
+        "admin": "/admin",
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
+# Metrics endpoint
+@app.get("/metrics")
+async def get_metrics():
+    """Get application metrics"""
+    try:
+        from utils.middleware import get_metrics_collector
+        collector = get_metrics_collector()
+        
+        if collector:
+            return collector.get_metrics()
+        else:
+            return {"error": "Metrics collection disabled"}
+            
+    except Exception as e:
+        logger.error(f"Failed to get metrics: {e}")
+        raise HTTPException(status_code=500, detail="Failed to get metrics")
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=settings.environment == "development"
+        host=settings.host,
+        port=settings.port,
+        reload=settings.is_development,
+        log_level=settings.log_level.lower()
     ) 

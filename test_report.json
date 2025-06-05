@@ -1,0 +1,19 @@
+{
+  "timestamp": "2025-06-05T04:50:14.873725",
+  "test_results": {
+    "imports": false,
+    "settings": false,
+    "file_validator": false,
+    "database_service": false,
+    "pdf_parser": false,
+    "middleware": false,
+    "api_structure": false,
+    "environment": false,
+    "celery": false
+  },
+  "summary": {
+    "total_tests": 9,
+    "passed": 0,
+    "failed": 9
+  }
+}

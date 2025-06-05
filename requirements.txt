@@ -1,18 +1,52 @@
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 pydantic==2.5.0
+pydantic-settings==2.1.0
 pymongo==4.6.0
-pdfplumber==0.10.3
-PyPDF2==3.0.1
-python-multipart==0.0.6
-python-dotenv==1.0.0
+motor==3.3.2
+
+# PDF解析核心库 - 选择最适合的组合
+pdfplumber==0.10.3      # 主要文本和表格提取
+pymupdf==1.23.8         # 高性能PDF处理，支持图像
+pytesseract==0.3.10     # OCR文本识别
+opencv-python==4.8.1.78 # 图像预处理
+
+# 备用PDF解析库
+PyPDF2==3.0.1          # 基础PDF操作
+pdfminer.six==20231228  # 底层PDF解析
+
+# 异步任务处理
 celery==5.3.4
 redis==5.0.1
-requests==2.31.0
-motor==3.3.2
+
+# 文件处理
+python-multipart==0.0.6
 aiofiles==23.2.1
 pillow==10.1.0
+python-magic==0.4.27   # 文件类型检测
+
+# 数据处理
 pandas==2.1.4
 numpy==1.26.2
+openpyxl==3.1.2        # Excel导出支持
+
+# 配置和环境
+python-dotenv==1.0.0
+
+# 网络请求
+requests==2.31.0
+httpx==0.25.2
+
+# 日志和监控
 loguru==0.7.2
-pydantic-settings==2.1.0 
+
+# 文本处理和NLP（用于智能解析）
+jieba==0.42.1          # 中文分词
+regex==2023.10.3       # 增强正则表达式
+
+# 系统监控
+psutil==5.9.6          # 系统资源监控
+
+# 开发和测试
+pytest==7.4.3
+pytest-asyncio==0.21.1 

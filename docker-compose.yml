@@ -1,0 +1,145 @@
+version: '3.8'
+
+services:
+  # PDF解析服务主应用
+  web:
+    build: .
+    ports:
+      - "7800:7800"
+    environment:
+      - ENVIRONMENT=development
+      - MONGODB_URL=mongodb://mongo:27017
+      - DATABASE_NAME=nutriguide_pdf_parser
+      - REDIS_URL=redis://redis:6379/0
+      - BACKEND_API_URL=http://localhost:3000
+      - TESSERACT_CMD=/usr/bin/tesseract
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+      - ./:/app
+    depends_on:
+      - mongo
+      - redis
+    command: uvicorn main:app --host 0.0.0.0 --port 7800 --reload
+    restart: unless-stopped
+    networks:
+      - pdf-parser-network
+
+  # Celery Worker - 处理异步任务
+  worker:
+    build: .
+    environment:
+      - ENVIRONMENT=development
+      - MONGODB_URL=mongodb://mongo:27017
+      - DATABASE_NAME=nutriguide_pdf_parser
+      - REDIS_URL=redis://redis:6379/0
+      - BACKEND_API_URL=http://localhost:3000
+      - TESSERACT_CMD=/usr/bin/tesseract
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+      - ./:/app
+    depends_on:
+      - mongo
+      - redis
+    command: celery -A celery_app worker --loglevel=info --concurrency=2
+    restart: unless-stopped
+    networks:
+      - pdf-parser-network
+
+  # Celery Beat - 定时任务调度器
+  beat:
+    build: .
+    environment:
+      - ENVIRONMENT=development
+      - MONGODB_URL=mongodb://mongo:27017
+      - DATABASE_NAME=nutriguide_pdf_parser
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+      - ./:/app
+    depends_on:
+      - mongo
+      - redis
+    command: celery -A celery_app beat --loglevel=info
+    restart: unless-stopped
+    networks:
+      - pdf-parser-network
+
+  # Celery Flower - 任务监控面板
+  flower:
+    build: .
+    ports:
+      - "5555:5555"
+    environment:
+      - ENVIRONMENT=development
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    command: celery -A celery_app flower --port=5555
+    restart: unless-stopped
+    networks:
+      - pdf-parser-network
+
+  # MongoDB数据库
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=nutriguide_pdf_parser
+    volumes:
+      - mongo_data:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    restart: unless-stopped
+    networks:
+      - pdf-parser-network
+
+  # Redis缓存和任务队列
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    networks:
+      - pdf-parser-network
+
+  # MongoDB管理界面 (可选)
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+    depends_on:
+      - mongo
+    restart: unless-stopped
+    networks:
+      - pdf-parser-network
+    profiles:
+      - admin
+
+volumes:
+  mongo_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  pdf-parser-network:
+    driver: bridge
+
+# 开发环境快速启动配置
+x-development: &development-environment
+  ENVIRONMENT: development
+  MONGODB_URL: mongodb://mongo:27017
+  DATABASE_NAME: nutriguide_pdf_parser
+  REDIS_URL: redis://redis:6379/0
+  BACKEND_API_URL: http://localhost:3000
+  TESSERACT_CMD: /usr/bin/tesseract 
