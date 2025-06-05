@@ -37,6 +37,12 @@ echo "🔧 启动后端服务 (端口 7800)..."
 # 激活虚拟环境并启动后端
 source venv/bin/activate
 export PYTHONPATH=$PWD:$PYTHONPATH
+
+# 设置 MongoDB 配置环境变量 - 连接到 Docker 容器
+export MONGODB_URL="mongodb://admin:admin123@localhost:27017/nutriguide_dev?authSource=admin"
+export MONGODB_DATABASE="nutriguide_dev"
+export ENVIRONMENT=development
+
 nohup python main.py > logs/backend.log 2>&1 &
 BACKEND_PID=$!
 echo "✅ 后端服务已启动 (PID: $BACKEND_PID)"

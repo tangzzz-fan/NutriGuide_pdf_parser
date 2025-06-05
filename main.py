@@ -338,12 +338,28 @@ async def get_parsing_status(document_id: str):
         if not result:
             raise HTTPException(status_code=404, detail="Document not found")
         
+        # 确定状态和进度
+        doc_status = result.get("status", "unknown")
+        progress = 100 if doc_status == "completed" else (50 if doc_status == "processing" else 0)
+        
+        # 准备消息
+        if result.get("error_message"):
+            message = result.get("error_message")
+        elif doc_status == "completed":
+            message = "Processing completed"
+        elif doc_status == "processing":
+            message = "Processing in progress"
+        else:
+            message = "Processing pending"
+        
         return ProcessingStatus(
+            status="success",  # API响应状态
+            message=message,
             document_id=document_id,
-            status=result.get("status", "unknown"),
-            progress=100 if result.get("status") == "completed" else 50,
-            message=result.get("error_message", "Processing"),
-            data=result.get("result")
+            progress=progress,
+            data=result.get("result"),
+            created_at=result.get("created_at"),
+            updated_at=result.get("updated_at")
         )
         
     except HTTPException:

@@ -65,21 +65,36 @@ else
     export REDIS_URL=redis://localhost:6379/0  # 即使连接失败也设置，代码中会处理
 fi
 
-# 检查MongoDB服务（仅检查本地，不启动Docker）
+# 检查MongoDB服务（Docker容器模式）
 echo "🔍 检查MongoDB服务..."
 if nc -z localhost 27017; then
-    echo "✅ 使用本地 MongoDB (端口 27017)"
-    export MONGODB_URL=mongodb://localhost:27017
+    echo "✅ 检测到 MongoDB (端口 27017)"
+    # 检查是否是Docker容器中的MongoDB（带认证）
+    if docker ps | grep -q nutriguide-mongodb-dev; then
+        echo "✅ 使用 Docker MongoDB 容器 (认证模式)"
+        export MONGODB_URL="mongodb://admin:admin123@localhost:27017/nutriguide_dev?authSource=admin"
+        export MONGODB_DATABASE="nutriguide_dev"
+    else
+        echo "✅ 使用本地 MongoDB (无认证)"
+        export MONGODB_URL=mongodb://localhost:27017
+        export MONGODB_DATABASE=nutriguide_pdf_parser
+    fi
 else
-    echo "⚠️ 本地MongoDB未运行，使用Mock模式"
-    export MONGODB_URL=mongodb://localhost:27017  # 即使连接失败也设置，代码中会处理
+    echo "⚠️ MongoDB未运行，请先启动 Docker 容器"
+    echo "   cd .. && docker-compose -f docker-compose.dev.yml up -d mongodb-dev"
+    export MONGODB_URL="mongodb://admin:admin123@localhost:27017/nutriguide_dev?authSource=admin"
+    export MONGODB_DATABASE="nutriguide_dev"
 fi
 
 # 设置环境变量
 export ENVIRONMENT=development
-export DATABASE_NAME=nutriguide_pdf_parser
 export BACKEND_API_URL=http://localhost:3000
 export TESSERACT_CMD=/usr/bin/tesseract
+
+# 如果没有设置 MONGODB_DATABASE，使用默认值
+if [ -z "$MONGODB_DATABASE" ]; then
+    export MONGODB_DATABASE=nutriguide_pdf_parser
+fi
 
 # 创建日志目录
 mkdir -p logs

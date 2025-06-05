@@ -2490,3 +2490,7 @@
 2025-06-05 21:36:49 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
 2025-06-05 21:36:49 | ERROR    | services.database:get_parsing_history:244 | 获取解析历史失败: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
 2025-06-05 21:36:49 | ERROR    | main:get_parsing_history:373 | Get history failed: Command aggregate requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command aggregate requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 21:49:34 | ERROR    | main:get_parsing_status:352 | Get status failed for 6841a06edcb9f7b6f6d34da6: 1 validation error for ProcessingStatus
+message
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.11/v/string_type
