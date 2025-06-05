@@ -97,7 +97,7 @@ pids
 *.pid.lock
 
 # Logs
-logs
+logs/
 *.log
 
 # IDE
@@ -125,3 +125,5 @@ __pycache__/
 docs/
 *.md
 !/README.md
+
+uploads/

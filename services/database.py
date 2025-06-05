@@ -202,6 +202,16 @@ class DatabaseService:
     ) -> Dict[str, Any]:
         """获取解析历史"""
         try:
+            # 确保数据库连接
+            if self.client is None or self.db is None:
+                logger.warning("数据库连接丢失，正在重新连接...")
+                await self.connect()
+
+            # 验证连接
+            if not await self.check_connection():
+                logger.warning("数据库连接验证失败，正在重新连接...")
+                await self.connect()
+
             collection = self.db[self.collections['parsing_results']]
             
             # 构建查询条件

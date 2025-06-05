@@ -42,3 +42,39 @@
 2025-06-05 23:26:38 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
 2025-06-05 23:26:38 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/ded64542-4200-465c-a70d-eb71fcbb50fb_流行性感冒诊疗方案（2025年版）.pdf
 2025-06-05 23:26:38 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: ded64542-4200-465c-a70d-eb71fcbb50fb, 质量分数: 0.50, 耗时: 0.34秒
+2025-06-05 23:30:00 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:30:00 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:30:00 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:30:29 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:30:29 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:30:29 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:30:41 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:30:41 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:30:41 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:31:01 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:31:01 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:12 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:12 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:12 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:12 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:12 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:24 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:24 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:24 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:24 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:24 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:36 | INFO     | utils.logger:log_parsing_start:119 | 开始解析文件 - File ID: 0d7052d9-a258-4070-acb7-2931a3c707ae, 文件名: 0d7052d9-a258-4070-acb7-2931a3c707ae_test_content_length.pdf, 类型: nutrition_label
+2025-06-05 23:32:36 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/0d7052d9-a258-4070-acb7-2931a3c707ae_test_content_length.pdf, type: nutrition_label
+2025-06-05 23:32:36 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
+2025-06-05 23:32:36 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/0d7052d9-a258-4070-acb7-2931a3c707ae_test_content_length.pdf
+2025-06-05 23:32:36 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: 0d7052d9-a258-4070-acb7-2931a3c707ae, 质量分数: 0.80, 耗时: 0.03秒
+2025-06-05 23:32:51 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:51 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:51 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:51 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:32:51 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:34:01 | INFO     | utils.logger:log_parsing_start:119 | 开始解析文件 - File ID: c69a3a19-c434-4f17-a30c-1b0e6c4e44dd, 文件名: c69a3a19-c434-4f17-a30c-1b0e6c4e44dd_final_test.pdf, 类型: auto
+2025-06-05 23:34:01 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/c69a3a19-c434-4f17-a30c-1b0e6c4e44dd_final_test.pdf, type: auto
+2025-06-05 23:34:01 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
+2025-06-05 23:34:01 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/c69a3a19-c434-4f17-a30c-1b0e6c4e44dd_final_test.pdf
+2025-06-05 23:34:01 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: c69a3a19-c434-4f17-a30c-1b0e6c4e44dd, 质量分数: 0.50, 耗时: 0.03秒

@@ -72,7 +72,7 @@ class PDFParserService:
             
             result = {
                 "basic_info": basic_info,
-                "text_content": text_content[:1000] if text_content else "",  # 截断保存
+                "text_content": text_content[:10000] if text_content else "",  # 增加到10000字符
                 "extracted_data": standardized_data,
                 "quality_score": quality_score,
                 "parsing_type": parsing_type,
@@ -303,7 +303,7 @@ class NutritionLabelExtractor:
                 "brand": food_info.get('brand', ''),
                 "category": food_info.get('category', ''),
                 "nutrition": nutrition_data,
-                "raw_text": combined_text[:500]  # 保存部分原文用于调试
+                "raw_text": combined_text[:2000]  # 增加到2000字符用于调试
             }
             
         except Exception as e:
