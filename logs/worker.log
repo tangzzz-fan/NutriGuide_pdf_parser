@@ -1,1 +1,30 @@
-nohup: celery: No such file or directory
+ 
+ -------------- celery@192.168.2.27 v5.5.3 (immunity)
+--- ***** ----- 
+-- ******* ---- macOS-15.5-arm64-arm-64bit-Mach-O 2025-06-05 16:48:16
+- *** --- * --- 
+- ** ---------- [config]
+- ** ---------- .> app:         pdf_parser:0x104c227b0
+- ** ---------- .> transport:   redis://localhost:6379/0
+- ** ---------- .> results:     redis://localhost:6379/0
+- *** --- * --- .> concurrency: 8 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                
+
+[tasks]
+  . batch_parse_task
+  . cleanup_old_files
+  . parse_pdf_task
+
+[2025-06-05 16:48:16,967: INFO/MainProcess] Connected to redis://localhost:6379/0
+[2025-06-05 16:48:16,971: INFO/MainProcess] mingle: searching for neighbors
+[2025-06-05 16:48:17,983: INFO/MainProcess] mingle: all alone
+[32m2025-06-05 16:48:18[0m | [1mINFO    [0m | [36mcelery_app[0m:[36mworker_ready_handler[0m:[36m54[0m | [1mCelery worker正在启动...[0m
+[32m2025-06-05 16:48:18[0m | [1mINFO    [0m | [36mservices.pdf_parser[0m:[36m__init__[0m:[36m19[0m | [1mUsing mock PDF parser service[0m
+[32m2025-06-05 16:48:18[0m | [1mINFO    [0m | [36mcelery_app[0m:[36mworker_ready_handler[0m:[36m59[0m | [1mPDF解析服务初始化完成[0m
+[32m2025-06-05 16:48:18[0m | [1mINFO    [0m | [36mcelery_app[0m:[36mworker_ready_handler[0m:[36m65[0m | [1m数据库服务初始化完成[0m
+[32m2025-06-05 16:48:18[0m | [1mINFO    [0m | [36mcelery_app[0m:[36mworker_ready_handler[0m:[36m67[0m | [1mCelery worker启动成功[0m
+[2025-06-05 16:48:18,005: INFO/MainProcess] celery@192.168.2.27 ready.

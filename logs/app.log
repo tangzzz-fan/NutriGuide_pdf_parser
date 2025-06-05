@@ -1,2 +1,80 @@
 2025-06-05 12:39:48 | INFO     | __main__:test_basic_functionality:40 | Test log message
 2025-06-05 12:43:36 | INFO     | __main__:test_basic_functionality:40 | Test log message
+2025-06-05 16:43:05 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:43:05 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:43:12 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:43:12 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:43:12 | INFO     | main:lifespan:43 | Starting PDF Parser Service...
+2025-06-05 16:43:12 | INFO     | services.database:connect:46 | MongoDB 连接成功: nutriguide_pdf
+2025-06-05 16:43:12 | WARNING  | services.database:_create_indexes:94 | 索引创建失败: Command createIndexes requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command createIndexes requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 16:43:12 | INFO     | main:lifespan:46 | Database connected successfully
+2025-06-05 16:43:18 | ERROR    | main:general_exception_handler:356 | Unhandled exception: 'Settings' object has no attribute 'get'
+2025-06-05 16:43:30 | ERROR    | main:general_exception_handler:356 | Unhandled exception: 'Settings' object has no attribute 'get'
+2025-06-05 16:43:36 | INFO     | main:lifespan:54 | Shutting down PDF Parser Service...
+2025-06-05 16:43:36 | INFO     | services.database:disconnect:59 | MongoDB 连接已关闭
+2025-06-05 16:43:36 | INFO     | main:lifespan:57 | Database disconnected successfully
+2025-06-05 16:43:41 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:43:41 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:43:41 | INFO     | main:lifespan:43 | Starting PDF Parser Service...
+2025-06-05 16:43:41 | INFO     | services.database:connect:46 | MongoDB 连接成功: nutriguide_pdf
+2025-06-05 16:43:41 | WARNING  | services.database:_create_indexes:94 | 索引创建失败: Command createIndexes requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command createIndexes requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 16:43:41 | INFO     | main:lifespan:46 | Database connected successfully
+2025-06-05 16:43:48 | ERROR    | main:general_exception_handler:356 | Unhandled exception: 'Settings' object has no attribute 'get'
+2025-06-05 16:43:55 | INFO     | main:lifespan:54 | Shutting down PDF Parser Service...
+2025-06-05 16:43:55 | INFO     | services.database:disconnect:59 | MongoDB 连接已关闭
+2025-06-05 16:43:55 | INFO     | main:lifespan:57 | Database disconnected successfully
+2025-06-05 16:45:21 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:45:21 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:45:21 | INFO     | main:lifespan:43 | Starting PDF Parser Service...
+2025-06-05 16:45:21 | INFO     | services.database:connect:46 | MongoDB 连接成功: nutriguide_pdf
+2025-06-05 16:45:21 | WARNING  | services.database:_create_indexes:94 | 索引创建失败: Command createIndexes requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command createIndexes requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 16:45:21 | INFO     | main:lifespan:46 | Database connected successfully
+2025-06-05 16:45:48 | INFO     | celery_app:worker_ready_handler:54 | Celery worker正在启动...
+2025-06-05 16:45:48 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:45:48 | INFO     | celery_app:worker_ready_handler:59 | PDF解析服务初始化完成
+2025-06-05 16:45:48 | INFO     | celery_app:worker_ready_handler:65 | 数据库服务初始化完成
+2025-06-05 16:45:48 | INFO     | celery_app:worker_ready_handler:67 | Celery worker启动成功
+2025-06-05 16:46:01 | INFO     | celery_app:worker_shutting_down_handler:79 | Celery worker正在关闭...
+2025-06-05 16:46:01 | INFO     | celery_app:worker_shutting_down_handler:89 | Celery worker关闭完成
+2025-06-05 16:46:01 | INFO     | main:lifespan:54 | Shutting down PDF Parser Service...
+2025-06-05 16:46:01 | INFO     | services.database:disconnect:59 | MongoDB 连接已关闭
+2025-06-05 16:46:01 | INFO     | main:lifespan:57 | Database disconnected successfully
+2025-06-05 16:46:07 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:46:07 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:46:07 | INFO     | main:lifespan:43 | Starting PDF Parser Service...
+2025-06-05 16:46:07 | INFO     | services.database:connect:46 | MongoDB 连接成功: nutriguide_pdf
+2025-06-05 16:46:07 | WARNING  | services.database:_create_indexes:94 | 索引创建失败: Command createIndexes requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command createIndexes requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 16:46:07 | INFO     | main:lifespan:46 | Database connected successfully
+2025-06-05 16:46:08 | INFO     | celery_app:worker_ready_handler:54 | Celery worker正在启动...
+2025-06-05 16:46:08 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:46:08 | INFO     | celery_app:worker_ready_handler:59 | PDF解析服务初始化完成
+2025-06-05 16:46:08 | INFO     | celery_app:worker_ready_handler:65 | 数据库服务初始化完成
+2025-06-05 16:46:08 | INFO     | celery_app:worker_ready_handler:67 | Celery worker启动成功
+2025-06-05 16:46:21 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:46:21 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 16:46:25 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:46:25 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 16:46:38 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:46:38 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 16:47:46 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:47:46 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 16:47:58 | INFO     | main:lifespan:54 | Shutting down PDF Parser Service...
+2025-06-05 16:47:58 | INFO     | services.database:disconnect:59 | MongoDB 连接已关闭
+2025-06-05 16:47:58 | INFO     | main:lifespan:57 | Database disconnected successfully
+2025-06-05 16:47:59 | INFO     | celery_app:worker_shutting_down_handler:79 | Celery worker正在关闭...
+2025-06-05 16:47:59 | INFO     | celery_app:worker_shutting_down_handler:89 | Celery worker关闭完成
+2025-06-05 16:48:16 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:48:16 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:48:16 | INFO     | main:lifespan:43 | Starting PDF Parser Service...
+2025-06-05 16:48:16 | INFO     | services.database:connect:46 | MongoDB 连接成功: nutriguide_pdf
+2025-06-05 16:48:16 | WARNING  | services.database:_create_indexes:94 | 索引创建失败: Command createIndexes requires authentication, full error: {'ok': 0.0, 'errmsg': 'Command createIndexes requires authentication', 'code': 13, 'codeName': 'Unauthorized'}
+2025-06-05 16:48:16 | INFO     | main:lifespan:46 | Database connected successfully
+2025-06-05 16:48:18 | INFO     | celery_app:worker_ready_handler:54 | Celery worker正在启动...
+2025-06-05 16:48:18 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
+2025-06-05 16:48:18 | INFO     | celery_app:worker_ready_handler:59 | PDF解析服务初始化完成
+2025-06-05 16:48:18 | INFO     | celery_app:worker_ready_handler:65 | 数据库服务初始化完成
+2025-06-05 16:48:18 | INFO     | celery_app:worker_ready_handler:67 | Celery worker启动成功
+2025-06-05 16:48:23 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:48:23 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 16:48:48 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:48:48 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable

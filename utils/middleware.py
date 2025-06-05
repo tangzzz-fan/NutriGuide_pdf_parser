@@ -7,7 +7,7 @@ import time
 import asyncio
 from typing import Callable, Dict, Any
 from fastapi import Request, Response, HTTPException
-from fastapi.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 import redis.asyncio as redis
 from collections import defaultdict, deque
@@ -231,7 +231,7 @@ class MetricsMiddleware(BaseHTTPMiddleware):
             endpoint_stats["error_count"] += 1
         
         # 记录慢请求
-        if duration > settings.get("slow_request_threshold", 5.0):
+        if duration > getattr(settings, "slow_request_threshold", 5.0):
             logger.warning(f"慢请求检测: {endpoint} - {duration:.3f}s")
     
     def get_metrics(self) -> Dict[str, Any]:

@@ -1,0 +1,15 @@
+2025-06-05 16:43:18 | ERROR    | main:general_exception_handler:356 | Unhandled exception: 'Settings' object has no attribute 'get'
+2025-06-05 16:43:30 | ERROR    | main:general_exception_handler:356 | Unhandled exception: 'Settings' object has no attribute 'get'
+2025-06-05 16:43:48 | ERROR    | main:general_exception_handler:356 | Unhandled exception: 'Settings' object has no attribute 'get'
+2025-06-05 16:46:21 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:46:21 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 16:46:25 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:46:25 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 16:46:38 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:46:38 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 16:47:46 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:47:46 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 16:48:23 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:48:23 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
+2025-06-05 16:48:48 | ERROR    | services.database:get_parsing_stats:406 | 获取统计信息失败: 'NoneType' object is not subscriptable
+2025-06-05 16:48:48 | ERROR    | api.admin:get_system_metrics:60 | 获取系统指标失败: 'NoneType' object is not subscriptable
