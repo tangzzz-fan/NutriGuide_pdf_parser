@@ -35,3 +35,21 @@
 2025-06-05 18:11:35 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
 2025-06-05 18:14:11 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
 2025-06-05 18:14:11 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:21:10 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:23:02 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:23:02 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:25:44 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:25:44 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:26:10 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:26:10 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:26:27 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:26:27 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:26:41 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:26:41 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 18:27:06 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/6d0970ce-8ede-4173-b43f-cd9c82249422_test_nutrition_guide.pdf, type: auto
+2025-06-05 18:27:06 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
+2025-06-05 18:27:06 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/6d0970ce-8ede-4173-b43f-cd9c82249422_test_nutrition_guide.pdf
+2025-06-05 20:40:14 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 20:40:14 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 21:08:25 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 21:08:25 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
