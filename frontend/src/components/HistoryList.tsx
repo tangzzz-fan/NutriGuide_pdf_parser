@@ -3,13 +3,16 @@ import {
     FileText,
     Eye,
     Clock,
-    CheckCircle,
     AlertCircle,
     Loader,
     Star,
-    Trash2
+    Trash2,
+    Download,
+    RefreshCw,
+    Filter
 } from 'lucide-react';
 import { StatusBadge } from './StatusBadge';
+import { apiService } from '../services/api';
 
 interface HistoryItem {
     document_id: string;
@@ -36,30 +39,31 @@ const HistoryList: React.FC<HistoryListProps> = ({
     const [currentPage, setCurrentPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [total, setTotal] = useState(0);
+    const [statusFilter, setStatusFilter] = useState<string>('all');
+    const [typeFilter, setTypeFilter] = useState<string>('all');
+    const [refreshing, setRefreshing] = useState(false);
 
     const pageSize = 10;
 
     useEffect(() => {
         fetchHistory(true);
-    }, [refreshTrigger]);
+    }, [refreshTrigger, statusFilter, typeFilter]);
 
     const fetchHistory = async (reset = false) => {
         try {
             if (reset) {
                 setLoading(true);
                 setCurrentPage(0);
+                setError(null);
             }
 
-            const page = reset ? 0 : currentPage;
-            const response = await fetch(
-                `/api/parse/history?limit=${pageSize}&offset=${page * pageSize}`
+            const page = reset ? 1 : currentPage + 1;
+            const data = await apiService.getParsingHistory(
+                page,
+                pageSize,
+                statusFilter === 'all' ? undefined : statusFilter,
+                typeFilter === 'all' ? undefined : typeFilter
             );
-
-            if (!response.ok) {
-                throw new Error('获取历史记录失败');
-            }
-
-            const data = await response.json();
 
             if (reset) {
                 setItems(data.results || []);
@@ -74,17 +78,22 @@ const HistoryList: React.FC<HistoryListProps> = ({
                 setCurrentPage(prev => prev + 1);
             }
         } catch (err) {
-            setError(err instanceof Error ? err.message : '未知错误');
+            setError(err instanceof Error ? err.message : '获取历史记录失败');
         } finally {
             setLoading(false);
+            setRefreshing(false);
         }
     };
 
     const loadMore = () => {
         if (!loading && hasMore) {
-            setCurrentPage(prev => prev + 1);
             fetchHistory(false);
         }
+    };
+
+    const handleRefresh = async () => {
+        setRefreshing(true);
+        await fetchHistory(true);
     };
 
     const deleteItem = async (documentId: string) => {
@@ -93,28 +102,36 @@ const HistoryList: React.FC<HistoryListProps> = ({
         }
 
         try {
-            const response = await fetch(`/api/parse/result/${documentId}`, {
-                method: 'DELETE'
-            });
-
-            if (response.ok) {
-                setItems(prev => prev.filter(item => item.document_id !== documentId));
-                setTotal(prev => prev - 1);
-            } else {
-                alert('删除失败');
-            }
+            await apiService.deleteParsingResult(documentId);
+            setItems(prev => prev.filter(item => item.document_id !== documentId));
+            setTotal(prev => prev - 1);
         } catch (err) {
             console.error('删除失败:', err);
             alert('删除失败');
         }
     };
 
-    const formatFileSize = (bytes: number) => {
-        if (bytes === 0) return '0 B';
-        const k = 1024;
-        const sizes = ['B', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    const downloadResult = async (documentId: string, filename: string) => {
+        try {
+            const response = await fetch(`/api/parse/result/${documentId}/download`);
+            if (!response.ok) {
+                throw new Error('下载失败');
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `${filename.replace('.pdf', '')}_解析结果.json`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (err) {
+            console.error('下载失败:', err);
+            alert('下载失败');
+        }
     };
 
     const formatDuration = (seconds: number) => {
@@ -149,9 +166,50 @@ const HistoryList: React.FC<HistoryListProps> = ({
     return (
         <div className="bg-white rounded-lg shadow">
             <div className="p-6 border-b border-gray-200">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-semibold">解析历史</h2>
-                    <span className="text-sm text-gray-500">总计 {total} 个文件</span>
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={handleRefresh}
+                            disabled={refreshing}
+                            className="flex items-center gap-1 px-3 py-1.5 text-xs bg-gray-50 text-gray-600 rounded-md hover:bg-gray-100 disabled:opacity-50"
+                        >
+                            <RefreshCw className={`w-3 h-3 ${refreshing ? 'animate-spin' : ''}`} />
+                            刷新
+                        </button>
+                        <span className="text-sm text-gray-500">总计 {total} 个文件</span>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <Filter className="w-4 h-4 text-gray-400" />
+                        <select
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            className="text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="all">所有状态</option>
+                            <option value="completed">已完成</option>
+                            <option value="processing">处理中</option>
+                            <option value="failed">失败</option>
+                            <option value="pending">等待中</option>
+                        </select>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <select
+                            value={typeFilter}
+                            onChange={(e) => setTypeFilter(e.target.value)}
+                            className="text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="all">所有类型</option>
+                            <option value="auto">自动解析</option>
+                            <option value="text">文本提取</option>
+                            <option value="table">表格提取</option>
+                            <option value="image">图像提取</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -193,15 +251,28 @@ const HistoryList: React.FC<HistoryListProps> = ({
                                     <button
                                         onClick={() => onViewContent(item.document_id)}
                                         className="flex items-center gap-1 px-3 py-1.5 text-xs bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100"
+                                        title="查看解析结果"
                                     >
                                         <Eye className="w-3 h-3" />
                                         查看
                                     </button>
                                 )}
 
+                                {item.status === 'completed' && (
+                                    <button
+                                        onClick={() => downloadResult(item.document_id, item.filename)}
+                                        className="flex items-center gap-1 px-3 py-1.5 text-xs bg-green-50 text-green-600 rounded-md hover:bg-green-100"
+                                        title="下载解析结果"
+                                    >
+                                        <Download className="w-3 h-3" />
+                                        下载
+                                    </button>
+                                )}
+
                                 <button
                                     onClick={() => deleteItem(item.document_id)}
                                     className="flex items-center gap-1 px-3 py-1.5 text-xs bg-red-50 text-red-600 rounded-md hover:bg-red-100"
+                                    title="删除解析结果"
                                 >
                                     <Trash2 className="w-3 h-3" />
                                     删除

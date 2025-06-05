@@ -418,11 +418,15 @@ async def download_parsing_result(document_id: str):
         import json
         json_content = json.dumps(download_content, indent=2, ensure_ascii=False, default=str)
         
+        # 对文件名进行 URL 编码以支持中文
+        import urllib.parse
+        encoded_filename = urllib.parse.quote(json_filename.encode('utf-8'))
+
         return Response(
             content=json_content,
             media_type="application/json",
             headers={
-                "Content-Disposition": f"attachment; filename={json_filename}"
+                "Content-Disposition": f"attachment; filename*=UTF-8''{encoded_filename}"
             }
         )
         

@@ -51,6 +51,23 @@ echo "✅ 后端服务已启动 (PID: $BACKEND_PID)"
 echo "⏳ 等待后端服务启动..."
 sleep 3
 
+echo "🔧 启动 Celery Worker..."
+# 检查 Celery Worker 是否已在运行
+if pgrep -f "celery.*worker" > /dev/null; then
+    echo "⚠️  Celery Worker 已在运行，跳过启动"
+else
+    # 启动 Celery Worker
+    nohup celery -A celery_app worker --loglevel=info --logfile=logs/celery_worker.log --pidfile=logs/celery_worker.pid --detach > /dev/null 2>&1
+    sleep 2
+
+    # 检查 Celery Worker 是否成功启动
+    if pgrep -f "celery.*worker" > /dev/null; then
+        echo "✅ Celery Worker 已启动"
+    else
+        echo "❌ Celery Worker 启动失败，请检查日志: logs/celery_worker.log"
+    fi
+fi
+
 echo "🎨 启动前端服务 (端口 4000)..."
 # 启动前端
 cd frontend
@@ -86,12 +103,32 @@ sleep 2
 
 # 检查服务是否正常启动
 echo "🔍 检查服务状态..."
+
+# 检查后端服务
 if curl -s http://localhost:7800/health > /dev/null; then
     echo "✅ 后端服务运行正常"
 else
     echo "❌ 后端服务启动失败，请检查日志: logs/backend.log"
 fi
 
+# 检查 Celery Worker
+if pgrep -f "celery.*worker" > /dev/null; then
+    echo "✅ Celery Worker 运行正常"
+
+    # 进一步检查 Celery 是否能处理任务
+    if command -v celery > /dev/null; then
+        CELERY_STATUS=$(celery -A celery_app inspect active 2>/dev/null | grep -c "celery@" || echo "0")
+        if [ "$CELERY_STATUS" -gt 0 ]; then
+            echo "✅ Celery Worker 可以接收任务"
+        else
+            echo "⚠️  Celery Worker 运行中但可能无法接收任务"
+        fi
+    fi
+else
+    echo "❌ Celery Worker 未运行，PDF解析功能可能不可用"
+fi
+
+# 检查前端服务
 if curl -s http://localhost:4000 > /dev/null; then
     echo "✅ 前端服务运行正常"
 else

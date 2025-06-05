@@ -13,3 +13,6 @@
 2025-06-05 23:06:47 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
 2025-06-05 23:06:47 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/cb55105c-6fb2-4287-b894-937009b4ddb6_流行性感冒诊疗方案（2025年版）.pdf
 2025-06-05 23:06:47 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: cb55105c-6fb2-4287-b894-937009b4ddb6, 质量分数: 0.50, 耗时: 0.35秒
+2025-06-05 23:16:05 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:16:05 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:16:05 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
