@@ -18,6 +18,12 @@ from utils.logger import get_logger, log_parsing_start, log_parsing_complete, lo
 from services.pdf_parser import PDFParserService
 from services.database import DatabaseService
 
+# 确保 Celery worker 有正确的环境变量
+if not os.getenv('MONGODB_URL'):
+    os.environ['MONGODB_URL'] = "mongodb://admin:admin123@localhost:27017/nutriguide_dev?authSource=admin"
+if not os.getenv('MONGODB_DATABASE'):
+    os.environ['MONGODB_DATABASE'] = "nutriguide_dev"
+
 settings = get_settings()
 logger = get_logger(__name__)
 

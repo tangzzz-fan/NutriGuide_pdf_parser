@@ -354,7 +354,7 @@ async def get_parsing_status(document_id: str):
             message = "Processing pending"
         
         return ProcessingStatus(
-            status="success",  # API响应状态
+            status=doc_status,  # 返回实际的文档状态
             message=message,
             document_id=document_id,
             progress=progress,

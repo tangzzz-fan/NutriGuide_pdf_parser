@@ -16,3 +16,29 @@
 2025-06-05 23:16:05 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
 2025-06-05 23:16:05 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
 2025-06-05 23:16:05 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:21:53 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:21:53 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:21:53 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:22:50 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:22:50 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:22:50 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:23:16 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:23:59 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:23:59 | INFO     | utils.logger:log_parsing_start:119 | 开始解析文件 - File ID: 6b352686-7b79-440d-8ee3-d210d2200ab0, 文件名: 6b352686-7b79-440d-8ee3-d210d2200ab0_test_status_fix.pdf, 类型: auto
+2025-06-05 23:23:59 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/6b352686-7b79-440d-8ee3-d210d2200ab0_test_status_fix.pdf, type: auto
+2025-06-05 23:23:59 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
+2025-06-05 23:23:59 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/6b352686-7b79-440d-8ee3-d210d2200ab0_test_status_fix.pdf
+2025-06-05 23:23:59 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: 6b352686-7b79-440d-8ee3-d210d2200ab0, 质量分数: 0.30, 耗时: 0.04秒
+2025-06-05 23:25:42 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:25:42 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:25:43 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:25:55 | INFO     | utils.logger:log_parsing_start:119 | 开始解析文件 - File ID: b167bd15-d4e0-4fc4-98ac-c9959a2c2167, 文件名: b167bd15-d4e0-4fc4-98ac-c9959a2c2167_test_status_fix.pdf, 类型: auto
+2025-06-05 23:25:55 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/b167bd15-d4e0-4fc4-98ac-c9959a2c2167_test_status_fix.pdf, type: auto
+2025-06-05 23:25:55 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
+2025-06-05 23:25:55 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/b167bd15-d4e0-4fc4-98ac-c9959a2c2167_test_status_fix.pdf
+2025-06-05 23:25:55 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: b167bd15-d4e0-4fc4-98ac-c9959a2c2167, 质量分数: 0.30, 耗时: 0.02秒
+2025-06-05 23:26:38 | INFO     | utils.logger:log_parsing_start:119 | 开始解析文件 - File ID: ded64542-4200-465c-a70d-eb71fcbb50fb, 文件名: ded64542-4200-465c-a70d-eb71fcbb50fb_流行性感冒诊疗方案（2025年版）.pdf, 类型: auto
+2025-06-05 23:26:38 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/ded64542-4200-465c-a70d-eb71fcbb50fb_流行性感冒诊疗方案（2025年版）.pdf, type: auto
+2025-06-05 23:26:38 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
+2025-06-05 23:26:38 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/ded64542-4200-465c-a70d-eb71fcbb50fb_流行性感冒诊疗方案（2025年版）.pdf
+2025-06-05 23:26:38 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: ded64542-4200-465c-a70d-eb71fcbb50fb, 质量分数: 0.50, 耗时: 0.34秒
