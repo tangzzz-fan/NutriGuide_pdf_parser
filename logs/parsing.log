@@ -1,90 +1,15 @@
-2025-06-05 16:43:05 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:43:05 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:43:12 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:43:12 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:43:41 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:43:41 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:45:21 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:45:21 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:45:48 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:46:07 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:46:07 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:46:08 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:48:16 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:48:16 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:48:18 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:57:30 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:57:30 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:58:33 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:58:33 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:58:41 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:58:41 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:58:57 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:58:57 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:59:30 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:59:30 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 16:59:30 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 17:00:52 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 17:00:52 | INFO     | services.pdf_parser:__init__:19 | Using mock PDF parser service
-2025-06-05 18:07:32 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:07:32 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:09:51 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:09:51 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:09:56 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:11:35 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:11:35 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:14:11 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:14:11 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:21:10 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:23:02 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:23:02 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:25:44 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:25:44 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:26:10 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:26:10 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:26:27 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:26:27 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:26:41 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:26:41 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 18:27:06 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/6d0970ce-8ede-4173-b43f-cd9c82249422_test_nutrition_guide.pdf, type: auto
-2025-06-05 18:27:06 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
-2025-06-05 18:27:06 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/6d0970ce-8ede-4173-b43f-cd9c82249422_test_nutrition_guide.pdf
-2025-06-05 20:40:14 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 20:40:14 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:08:25 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:08:25 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:45:50 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:45:50 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:45:50 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:46:37 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:46:37 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:48:23 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:48:23 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:49:12 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:49:12 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:49:34 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/d73c1d53-962c-4fde-bfeb-a781c61f66fa_test_nutrition.pdf, type: auto
-2025-06-05 21:49:34 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
-2025-06-05 21:49:34 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/d73c1d53-962c-4fde-bfeb-a781c61f66fa_test_nutrition.pdf
-2025-06-05 21:51:14 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:51:14 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:52:25 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:52:25 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:52:32 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/71d5abbf-115f-4f61-b187-7a2d47221ae1_nutrition_label_test.pdf, type: auto
-2025-06-05 21:52:32 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
-2025-06-05 21:52:32 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/71d5abbf-115f-4f61-b187-7a2d47221ae1_nutrition_label_test.pdf
-2025-06-05 21:52:32 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/96e88651-c7a8-4c03-b5ee-242f09406bf8_recipe_test.pdf, type: auto
-2025-06-05 21:52:32 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
-2025-06-05 21:52:32 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/96e88651-c7a8-4c03-b5ee-242f09406bf8_recipe_test.pdf
-2025-06-05 21:52:32 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/33d3f7bf-39ff-4ce4-8cc3-bcefdc69004f_auto_detect_test.pdf, type: auto
-2025-06-05 21:52:32 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
-2025-06-05 21:52:32 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/33d3f7bf-39ff-4ce4-8cc3-bcefdc69004f_auto_detect_test.pdf
-2025-06-05 21:53:33 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:53:33 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:54:38 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:54:38 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
-2025-06-05 21:54:43 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/ff49643f-d1e0-4dc0-b660-1a5978e31ef2_integration_test.pdf, type: auto
-2025-06-05 21:54:43 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
-2025-06-05 21:54:43 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/ff49643f-d1e0-4dc0-b660-1a5978e31ef2_integration_test.pdf
-2025-06-05 21:54:43 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/d186cd87-25a8-4397-9a8d-ce4602230073_integration_test.pdf, type: auto
-2025-06-05 21:54:43 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
-2025-06-05 21:54:43 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/d186cd87-25a8-4397-9a8d-ce4602230073_integration_test.pdf
+2025-06-05 23:03:41 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:03:41 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:03:42 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:03:42 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:03:42 | INFO     | services.pdf_parser:__init__:36 | PDF Parser Service initialized with real parsing capabilities
+2025-06-05 23:06:20 | INFO     | utils.logger:log_parsing_start:119 | 开始解析文件 - File ID: 087b5921-0f48-4171-a005-de5e7c00d382, 文件名: 087b5921-0f48-4171-a005-de5e7c00d382_test_upload.pdf, 类型: auto
+2025-06-05 23:06:20 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/087b5921-0f48-4171-a005-de5e7c00d382_test_upload.pdf, type: auto
+2025-06-05 23:06:20 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
+2025-06-05 23:06:20 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/087b5921-0f48-4171-a005-de5e7c00d382_test_upload.pdf
+2025-06-05 23:06:20 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: 087b5921-0f48-4171-a005-de5e7c00d382, 质量分数: 0.30, 耗时: 0.01秒
+2025-06-05 23:06:47 | INFO     | utils.logger:log_parsing_start:119 | 开始解析文件 - File ID: cb55105c-6fb2-4287-b894-937009b4ddb6, 文件名: cb55105c-6fb2-4287-b894-937009b4ddb6_流行性感冒诊疗方案（2025年版）.pdf, 类型: auto
+2025-06-05 23:06:47 | INFO     | services.pdf_parser:parse_pdf:50 | Starting PDF parsing: uploads/cb55105c-6fb2-4287-b894-937009b4ddb6_流行性感冒诊疗方案（2025年版）.pdf, type: auto
+2025-06-05 23:06:47 | INFO     | services.pdf_parser:_extract_ocr_content_alternative:154 | OCR extraction temporarily disabled - using text extraction only
+2025-06-05 23:06:47 | INFO     | services.pdf_parser:parse_pdf:84 | PDF parsing completed successfully: uploads/cb55105c-6fb2-4287-b894-937009b4ddb6_流行性感冒诊疗方案（2025年版）.pdf
+2025-06-05 23:06:47 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: cb55105c-6fb2-4287-b894-937009b4ddb6, 质量分数: 0.50, 耗时: 0.35秒

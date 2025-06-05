@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks, Request
+from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -102,7 +102,10 @@ if settings.rate_limit_enabled:
 cors_config = settings.get_cors_config()
 app.add_middleware(
     CORSMiddleware,
-    **cors_config
+    allow_origins=["*"],  # 在生产环境中应该设置具体的域名
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
 )
 
 # Include routers
@@ -212,15 +215,14 @@ async def parse_pdf_async(
         )
     
     try:
-        # Generate unique IDs
+        # Generate unique file ID
         file_id = str(uuid.uuid4())
-        document_id = str(uuid.uuid4())
         
         # Save uploaded file with validation
         file_path = await _save_uploaded_file(file, file_id, validate=True)
         
-        # Save initial record to database
-        await db_service.save_parsing_result(
+        # Save initial record to database and get the actual document_id
+        document_id = await db_service.save_parsing_result(
             file_id=file_id,
             filename=file.filename,
             parsing_type=parsing_type,
@@ -284,13 +286,12 @@ async def parse_pdf_batch(
                 continue  # Skip non-PDF files
                 
             file_id = str(uuid.uuid4())
-            document_id = str(uuid.uuid4())
             
             # Save file
             file_path = await _save_uploaded_file(file, file_id, validate=True)
             
-            # Save to database
-            await db_service.save_parsing_result(
+            # Save to database and get actual document_id
+            document_id = await db_service.save_parsing_result(
                 file_id=file_id,
                 filename=file.filename,
                 parsing_type=parsing_type,
@@ -367,6 +368,69 @@ async def get_parsing_status(document_id: str):
     except Exception as e:
         logger.error(f"Get status failed for {document_id}: {e}")
         raise HTTPException(status_code=500, detail="Failed to get status")
+
+@app.get("/parse/result/{document_id}")
+async def get_parsing_result(document_id: str):
+    """Get detailed parsing result"""
+    try:
+        result = await db_service.get_parsing_result(document_id)
+        
+        if not result:
+            raise HTTPException(status_code=404, detail="Document not found")
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Get result failed for {document_id}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to get result")
+
+@app.get("/parse/result/{document_id}/download")
+async def download_parsing_result(document_id: str):
+    """Download parsing result as JSON file"""
+    try:
+        result = await db_service.get_parsing_result(document_id)
+        
+        if not result:
+            raise HTTPException(status_code=404, detail="Document not found")
+        
+        # 准备下载内容
+        download_content = {
+            "document_id": document_id,
+            "filename": result.get("filename", "unknown"),
+            "parsing_type": result.get("parsing_type", "unknown"),
+            "status": result.get("status", "unknown"),
+            "created_at": result.get("created_at").isoformat() if result.get("created_at") else None,
+            "updated_at": result.get("updated_at").isoformat() if result.get("updated_at") else None,
+            "quality_score": result.get("quality_score"),
+            "processing_time": result.get("processing_time"),
+            "result": result.get("result", {})
+        }
+        
+        # 生成文件名
+        safe_filename = sanitize_filename(result.get("filename", "result"))
+        if safe_filename.endswith('.pdf'):
+            safe_filename = safe_filename[:-4]  # 移除.pdf后缀
+        json_filename = f"{safe_filename}_parsed.json"
+        
+        # 创建JSON响应
+        import json
+        json_content = json.dumps(download_content, indent=2, ensure_ascii=False, default=str)
+        
+        return Response(
+            content=json_content,
+            media_type="application/json",
+            headers={
+                "Content-Disposition": f"attachment; filename={json_filename}"
+            }
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Download failed for {document_id}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to download result")
 
 @app.get("/parse/history")
 async def get_parsing_history(

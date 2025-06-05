@@ -99,7 +99,7 @@ class TaskManager:
             
             # 提交到Celery
             celery_result = self.celery_app.send_task(
-                'parse_pdf_task',
+                'parse_pdf_task_v2',
                 args=[file_path, file_id, document_id, parsing_type, callback_url],
                 task_id=task_id,
                 priority=priority
@@ -143,7 +143,7 @@ class TaskManager:
             
             # 提交到Celery
             celery_result = self.celery_app.send_task(
-                'batch_parse_task',
+                'batch_parse_task_v2',
                 args=[batch_id, files_info, parsing_type],
                 task_id=task_id,
                 priority=priority

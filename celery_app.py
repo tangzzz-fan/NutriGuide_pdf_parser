@@ -6,9 +6,12 @@ Celery Application - 异步任务处理
 import os
 import asyncio
 import time
+import traceback
 from celery import Celery
 from celery.signals import worker_ready, worker_shutting_down
-from typing import Optional
+from celery.exceptions import Ignore
+from typing import Optional, Dict, Any
+import json
 
 from config.settings import get_settings
 from utils.logger import get_logger, log_parsing_start, log_parsing_complete, log_parsing_error
@@ -21,24 +24,64 @@ logger = get_logger(__name__)
 # 创建Celery应用
 celery_app = Celery(
     "pdf_parser",
-    broker=settings.redis_url,
-    backend=settings.redis_url,
+    broker=settings.celery_broker_url,
+    backend=settings.celery_result_backend,
     include=["celery_app"]
 )
 
 # Celery配置
 celery_app.conf.update(
+    # 序列化配置 - 关键修复点
     task_serializer="json",
     accept_content=["json"],
     result_serializer="json",
+    
+    # 时区配置
     timezone="UTC",
     enable_utc=True,
+    
+    # 任务跟踪和结果配置 - 关键修复点
     task_track_started=True,
+    task_ignore_result=False,  # 重新启用结果存储
+    task_store_eager_result=True,  # 启用即时结果存储
+    result_expires=3600,  # 结果保存1小时
+    
+    # 超时配置
     task_time_limit=30 * 60,  # 30分钟超时
     task_soft_time_limit=25 * 60,  # 25分钟软超时
+    
+    # Worker配置
     worker_prefetch_multiplier=1,
     worker_max_tasks_per_child=50,
-    result_expires=3600,  # 结果保存1小时
+    
+    # 结果后端配置 - 关键修复点
+    result_backend_transport_options={
+        'retry_policy': {
+            'timeout': 5.0
+        }
+    },
+    
+    # 添加队列和路由配置
+    task_default_queue="pdf_parsing",
+    task_routes={
+        "parse_pdf_task_v2": {"queue": "pdf_parsing"},
+        "batch_parse_task_v2": {"queue": "batch_processing"},
+        "cleanup_old_files": {"queue": "maintenance"}
+    },
+    
+    # 错误处理配置 - 关键修复点
+    task_annotations={
+        '*': {
+            'rate_limit': '10/s',
+            'time_limit': 1800,
+            'soft_time_limit': 1500,
+        }
+    },
+    
+    # 避免复杂对象序列化问题
+    task_always_eager=False,
+    result_accept_content=['json'],
+    result_compression='gzip',
 )
 
 # 全局服务实例
@@ -46,26 +89,36 @@ pdf_service: Optional[PDFParserService] = None
 db_service: Optional[DatabaseService] = None
 
 
+def ensure_services_initialized():
+    """确保服务已初始化"""
+    global pdf_service, db_service
+
+    if pdf_service is None:
+        try:
+            pdf_service = PDFParserService()
+            logger.info("PDF解析服务初始化完成")
+        except Exception as e:
+            logger.error(f"PDF解析服务初始化失败: {e}")
+            raise
+
+    if db_service is None:
+        try:
+            db_service = DatabaseService()
+            logger.info("数据库服务初始化完成")
+        except Exception as e:
+            logger.error(f"数据库服务初始化失败: {e}")
+            raise
+
+
 @worker_ready.connect
 def worker_ready_handler(sender=None, **kwargs):
     """Worker启动时初始化服务"""
-    global pdf_service, db_service
-    
     logger.info("Celery worker正在启动...")
-    
+
     try:
-        # 初始化PDF解析服务
-        pdf_service = PDFParserService()
-        logger.info("PDF解析服务初始化完成")
-        
-        # 初始化数据库服务
-        db_service = DatabaseService()
-        # 注意：在同步环境中不能直接调用异步方法
-        # 数据库连接将在任务中建立
-        logger.info("数据库服务初始化完成")
-        
+        ensure_services_initialized()
         logger.info("Celery worker启动成功")
-        
+
     except Exception as e:
         logger.error(f"Celery worker启动失败: {e}")
         raise
@@ -92,7 +145,7 @@ def worker_shutting_down_handler(sender=None, **kwargs):
         logger.error(f"Celery worker关闭时出错: {e}")
 
 
-@celery_app.task(bind=True, name="parse_pdf_task")
+@celery_app.task(bind=True, name="parse_pdf_task_v2")
 def parse_pdf_task(
     self,
     file_path: str,
@@ -103,7 +156,7 @@ def parse_pdf_task(
 ):
     """
     PDF解析异步任务
-    
+
     Args:
         file_path: PDF文件路径
         file_id: 文件ID
@@ -112,27 +165,37 @@ def parse_pdf_task(
         callback_url: 回调URL（可选）
     """
     global pdf_service, db_service
-    
+
     start_time = time.time()
     filename = os.path.basename(file_path)
-    
+
+    # 确保服务已初始化
+    try:
+        ensure_services_initialized()
+    except Exception as e:
+        logger.error(f"服务初始化失败: {e}")
+        return {
+            "status": "failed",
+            "document_id": document_id,
+            "file_id": file_id,
+            "filename": filename,
+            "error": {
+                "type": "ServiceInitializationError",
+                "message": f"服务初始化失败: {str(e)}"
+            },
+            "duration": time.time() - start_time
+        }
+
     # 记录任务开始
     log_parsing_start(file_id, filename, parsing_type)
-    
+
     # 创建异步事件循环
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     
     try:
-        # 更新任务状态为处理中
-        self.update_state(
-            state="PROGRESS",
-            meta={
-                "current": 10,
-                "total": 100,
-                "status": "开始解析PDF文件..."
-            }
-        )
+        # 记录任务开始（不更新状态以避免序列化问题）
+        logger.info(f"开始解析PDF文件: {filename}")
         
         # 异步执行解析和数据库操作
         result = loop.run_until_complete(
@@ -146,6 +209,7 @@ def parse_pdf_task(
         
     except Exception as e:
         error_msg = str(e)
+        error_type = type(e).__name__
         duration = time.time() - start_time
         
         # 记录错误
@@ -159,18 +223,21 @@ def parse_pdf_task(
         except Exception as db_error:
             logger.error(f"更新数据库错误状态失败: {db_error}")
         
-        # 更新任务状态
-        self.update_state(
-            state="FAILURE",
-            meta={
-                "current": 100,
-                "total": 100,
-                "status": f"解析失败: {error_msg}",
-                "error": error_msg
-            }
-        )
+        # 记录错误信息（不更新状态以避免序列化问题）
+        logger.error(f"任务执行失败: {error_type}: {error_msg}")
         
-        raise
+        # 直接返回错误结果而不是抛出异常
+        return {
+            "status": "failed",
+            "document_id": document_id,
+            "file_id": file_id,
+            "filename": filename,
+            "error": {
+                "type": error_type,
+                "message": error_msg
+            },
+            "duration": duration
+        }
         
     finally:
         # 清理临时文件
@@ -196,23 +263,30 @@ async def _async_parse_and_save(
 ) -> dict:
     """异步解析和保存逻辑"""
     global pdf_service, db_service
-    
+
     filename = os.path.basename(file_path)
-    
-    # 确保数据库连接
-    if not db_service.client:
+
+    # 确保服务实例存在并已连接
+    if pdf_service is None:
+        logger.warning("PDF解析服务未初始化，正在重新创建...")
+        pdf_service = PDFParserService()
+
+    if db_service is None:
+        logger.warning("数据库服务未初始化，正在重新创建...")
+        db_service = DatabaseService()
+
+    if not hasattr(db_service, 'client') or db_service.client is None:
+        logger.info("数据库连接不存在，正在建立连接...")
         await db_service.connect()
-    
+
+    # 验证数据库连接
+    if not await db_service.check_connection():
+        logger.warning("数据库连接失效，正在重新连接...")
+        await db_service.connect()
+
     try:
-        # 更新进度：开始解析
-        task.update_state(
-            state="PROGRESS",
-            meta={
-                "current": 20,
-                "total": 100,
-                "status": "正在提取PDF内容..."
-            }
-        )
+        # 记录进度（不更新状态）
+        logger.info("正在提取PDF内容...")
         
         await db_service.update_parsing_status(
             document_id=document_id,
@@ -224,15 +298,8 @@ async def _async_parse_and_save(
         # 执行PDF解析
         parse_result = await pdf_service.parse_pdf(file_path, parsing_type)
         
-        # 更新进度：解析完成
-        task.update_state(
-            state="PROGRESS",
-            meta={
-                "current": 80,
-                "total": 100,
-                "status": "正在保存解析结果..."
-            }
-        )
+        # 记录进度（不更新状态）
+        logger.info("正在保存解析结果...")
         
         # 保存解析结果到数据库
         await db_service.update_parsing_status(
@@ -254,17 +321,8 @@ async def _async_parse_and_save(
         if callback_url:
             await _send_callback(callback_url, document_id, parse_result)
         
-        # 更新最终任务状态
-        task.update_state(
-            state="SUCCESS",
-            meta={
-                "current": 100,
-                "total": 100,
-                "status": "解析完成",
-                "result": parse_result,
-                "duration": duration
-            }
-        )
+        # 记录任务完成（不更新状态）
+        logger.info(f"解析完成，耗时: {duration:.2f}秒")
         
         return {
             "status": "completed",
@@ -280,24 +338,43 @@ async def _async_parse_and_save(
     except Exception as e:
         # 确保错误也被正确处理
         duration = time.time() - start_time
+        error_msg = str(e)
+        error_type = type(e).__name__
+        
         await db_service.update_parsing_status(
             document_id=document_id,
             status="failed",
             progress=100,
-            message=f"解析失败: {str(e)}"
+            message=f"解析失败: {error_msg}"
         )
+        
+        # 记录详细错误信息
+        logger.error(f"解析任务失败: {error_type}: {error_msg}")
+        
+        # 重新抛出异常，让上层处理
         raise
 
 
 async def _update_database_error(document_id: str, error_msg: str):
     """更新数据库错误状态"""
     global db_service
-    
-    if not db_service:
+
+    if db_service is None:
+        logger.warning("数据库服务未初始化，无法更新错误状态")
         return
-    
-    if not db_service.client:
-        await db_service.connect()
+
+    try:
+        if not hasattr(db_service, 'client') or db_service.client is None:
+            logger.info("数据库连接不存在，正在建立连接...")
+            await db_service.connect()
+
+        # 验证数据库连接
+        if not await db_service.check_connection():
+            logger.warning("数据库连接失效，正在重新连接...")
+            await db_service.connect()
+    except Exception as e:
+        logger.error(f"建立数据库连接失败: {e}")
+        return
     
     await db_service.update_parsing_status(
         document_id=document_id,
@@ -334,18 +411,32 @@ async def _send_callback(callback_url: str, document_id: str, result: dict):
         logger.error(f"发送回调失败: {e}")
 
 
-@celery_app.task(name="batch_parse_task")
+@celery_app.task(name="batch_parse_task_v2")
 def batch_parse_task(batch_id: str, files_info: list, parsing_type: str = "auto"):
     """
     批量解析任务
-    
+
     Args:
         batch_id: 批次ID
         files_info: 文件信息列表
         parsing_type: 解析类型
     """
     logger.info(f"开始批量解析任务: {batch_id}, 文件数量: {len(files_info)}")
-    
+
+    # 确保服务已初始化
+    try:
+        ensure_services_initialized()
+    except Exception as e:
+        logger.error(f"服务初始化失败: {e}")
+        return {
+            "status": "failed",
+            "batch_id": batch_id,
+            "error": {
+                "type": "ServiceInitializationError",
+                "message": f"服务初始化失败: {str(e)}"
+            }
+        }
+
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     
@@ -356,8 +447,19 @@ def batch_parse_task(batch_id: str, files_info: list, parsing_type: str = "auto"
         return result
         
     except Exception as e:
-        logger.error(f"批量解析任务失败: {e}")
-        raise
+        error_msg = str(e)
+        error_type = type(e).__name__
+        logger.error(f"批量解析任务失败: {error_type}: {error_msg}")
+        
+        # 返回错误结果而不是抛出异常
+        return {
+            "status": "failed",
+            "batch_id": batch_id,
+            "error": {
+                "type": error_type,
+                "message": error_msg
+            }
+        }
         
     finally:
         loop.close()
@@ -365,10 +467,24 @@ def batch_parse_task(batch_id: str, files_info: list, parsing_type: str = "auto"
 
 async def _async_batch_parse(batch_id: str, files_info: list, parsing_type: str):
     """异步批量解析逻辑"""
-    global db_service
-    
-    # 确保数据库连接
-    if not db_service.client:
+    global db_service, pdf_service
+
+    # 确保服务实例存在并已连接
+    if db_service is None:
+        logger.warning("数据库服务未初始化，正在重新创建...")
+        db_service = DatabaseService()
+
+    if pdf_service is None:
+        logger.warning("PDF解析服务未初始化，正在重新创建...")
+        pdf_service = PDFParserService()
+
+    if not hasattr(db_service, 'client') or db_service.client is None:
+        logger.info("数据库连接不存在，正在建立连接...")
+        await db_service.connect()
+
+    # 验证数据库连接
+    if not await db_service.check_connection():
+        logger.warning("数据库连接失效，正在重新连接...")
         await db_service.connect()
     
     # 更新批次状态为处理中
@@ -482,6 +598,34 @@ def cleanup_old_files():
     except Exception as e:
         logger.error(f"清理旧文件失败: {e}")
         raise
+
+
+def safe_serialize_exception(exc: Exception) -> Dict[str, Any]:
+    """安全地序列化异常信息"""
+    try:
+        return {
+            "type": type(exc).__name__,
+            "message": str(exc),
+            "module": type(exc).__module__,
+            "args": list(exc.args) if exc.args else [],
+        }
+    except Exception:
+        return {
+            "type": "UnknownError",
+            "message": "无法序列化异常信息",
+            "module": "builtins",
+            "args": [],
+        }
+
+
+def create_serializable_error(error_msg: str, error_type: str = "RuntimeError") -> Dict[str, Any]:
+    """创建可序列化的错误信息"""
+    return {
+        "type": error_type,
+        "message": error_msg,
+        "module": "builtins",
+        "args": [error_msg],
+    }
 
 
 # 导出Celery应用

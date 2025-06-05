@@ -441,34 +441,56 @@ async def get_real_time_stats():
         total_completed = 0
         total_failed = 0
         
-        for result in today_results.get("results", []):
+        # 确保today_results不为None且有results字段
+        results_list = []
+        if today_results and isinstance(today_results, dict):
+            results_list = today_results.get("results", [])
+        
+        for result in results_list:
+            if not result:
+                continue
+                
             created_date = result.get("created_at")
             if created_date:
-                if isinstance(created_date, str):
-                    created_date = datetime.fromisoformat(created_date.replace('Z', '+00:00'))
-                if created_date.date() == today:
-                    today_completed += 1
+                try:
+                    if isinstance(created_date, str):
+                        created_date = datetime.fromisoformat(created_date.replace('Z', '+00:00'))
+                    if hasattr(created_date, 'date') and created_date.date() == today:
+                        today_completed += 1
+                except (ValueError, AttributeError):
+                    # 忽略日期解析错误
+                    pass
             
             # 统计成功率
-            if result.get("status") == "completed":
+            status = result.get("status")
+            if status == "completed":
                 total_completed += 1
-            elif result.get("status") == "failed":
+            elif status == "failed":
                 total_failed += 1
         
         # 获取处理中和队列中的数量
-        processing_results = await db_service.get_parsing_history(
-            limit=1000,
-            offset=0,
-            status="processing"
-        )
-        queued_results = await db_service.get_parsing_history(
-            limit=1000,
-            offset=0,
-            status="queued"
-        )
+        try:
+            processing_results = await db_service.get_parsing_history(
+                limit=1000,
+                offset=0,
+                status="processing"
+            )
+            if processing_results and isinstance(processing_results, dict):
+                stats["processing"] = len(processing_results.get("results", []))
+        except Exception:
+            stats["processing"] = 0
+            
+        try:
+            queued_results = await db_service.get_parsing_history(
+                limit=1000,
+                offset=0,
+                status="queued"
+            )
+            if queued_results and isinstance(queued_results, dict):
+                stats["queued"] = len(queued_results.get("results", []))
+        except Exception:
+            stats["queued"] = 0
         
-        stats["processing"] = len(processing_results.get("results", []))
-        stats["queued"] = len(queued_results.get("results", []))
         stats["completed_today"] = today_completed
         
         # 计算成功率
@@ -485,6 +507,7 @@ async def get_real_time_stats():
             "queued": 0,
             "completed_today": 0,
             "success_rate": 0,
+            "timestamp": datetime.utcnow().isoformat(),
             "error": str(e)
         }
 

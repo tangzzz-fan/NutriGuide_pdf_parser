@@ -242,7 +242,14 @@ class DatabaseService:
             
         except Exception as e:
             logger.error(f"获取解析历史失败: {e}")
-            raise
+            # 返回空结果而不是抛出异常
+            return {
+                "results": [],
+                "total": 0,
+                "limit": limit,
+                "offset": offset,
+                "error": str(e)
+            }
     
     async def delete_parsing_result(self, document_id: str) -> bool:
         """删除解析结果"""

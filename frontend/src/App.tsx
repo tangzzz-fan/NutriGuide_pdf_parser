@@ -4,6 +4,8 @@ import { FileUpload } from './components/FileUpload'
 import { StatsCard } from './components/StatsCard'
 import { ProgressBar, CircularProgress } from './components/ProgressBar'
 import { StatusBadge } from './components/StatusBadge'
+import HistoryList from './components/HistoryList'
+import ParsedContentViewer from './components/ParsedContentViewer'
 import { UploadFile, ParseResult, Stats, RecentTask } from './types/index.ts'
 import { apiService } from './services/api'
 import { formatFileSize, formatDateTime, formatTimeAgo, parseTypeLabels, cn } from './lib/utils'
@@ -20,6 +22,11 @@ function App() {
   const [totalPages, setTotalPages] = useState(1)
   const [apiError, setApiError] = useState<string | null>(null)
   const [serviceStatus, setServiceStatus] = useState<'checking' | 'connected' | 'error'>('checking')
+
+  // 新增：内容查看器相关状态
+  const [viewingDocumentId, setViewingDocumentId] = useState<string | null>(null)
+  const [activeView, setActiveView] = useState<'upload' | 'history' | 'viewer'>('upload')
+  const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
 
   // 测试API连接
   const testApiConnection = async () => {
@@ -197,6 +204,24 @@ function App() {
     }
   }
 
+  // 处理查看解析内容
+  const handleViewContent = (documentId: string) => {
+    setViewingDocumentId(documentId)
+    setActiveView('viewer')
+  }
+
+  // 关闭内容查看器
+  const handleCloseViewer = () => {
+    setViewingDocumentId(null)
+    setActiveView('history')
+  }
+
+  // 刷新历史记录
+  const refreshHistory = () => {
+    setHistoryRefreshTrigger(prev => prev + 1)
+    loadHistory()
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* 头部导航 */}
@@ -310,145 +335,201 @@ function App() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* 左侧：文件上传 */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="card">
-              <div className="card-header">
-                <h2 className="text-lg font-semibold text-gray-900">文件上传</h2>
-                <p className="text-sm text-gray-500">上传PDF文件进行智能解析</p>
-              </div>
-              <div className="card-body space-y-6">
-                <FileUpload
-                  files={files}
-                  onFilesChange={setFiles}
-                  disabled={isUploading}
-                />
+        {/* 主要导航标签 */}
+        {!viewingDocumentId && (
+          <div className="mb-6">
+            <div className="border-b border-gray-200">
+              <nav className="-mb-px flex space-x-8">
+                <button
+                  onClick={() => setActiveView('upload')}
+                  className={cn(
+                    'py-2 px-1 border-b-2 font-medium text-sm',
+                    activeView === 'upload'
+                      ? 'border-blue-500 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  )}
+                >
+                  文件上传
+                </button>
+                <button
+                  onClick={() => setActiveView('history')}
+                  className={cn(
+                    'py-2 px-1 border-b-2 font-medium text-sm',
+                    activeView === 'history'
+                      ? 'border-blue-500 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  )}
+                >
+                  解析历史
+                </button>
+              </nav>
+            </div>
+          </div>
+        )}
 
-                {/* 解析选项 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* 主内容区域 */}
+        {viewingDocumentId ? (
+          /* 内容查看器 */
+          <ParsedContentViewer
+            documentId={viewingDocumentId}
+            onClose={handleCloseViewer}
+          />
+        ) : activeView === 'upload' ? (
+          /* 上传界面 */
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* 左侧：文件上传 */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="card">
+                <div className="card-header">
+                  <h2 className="text-lg font-semibold text-gray-900">文件上传</h2>
+                  <p className="text-sm text-gray-500">上传PDF文件进行智能解析</p>
+                </div>
+                <div className="card-body space-y-6">
+                  <FileUpload
+                    files={files}
+                    onFilesChange={setFiles}
+                    disabled={isUploading}
+                  />
+
+                  {/* 解析选项 */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        解析类型
+                      </label>
+                      <select
+                        value={parseType}
+                        onChange={(e) => setParseType(e.target.value)}
+                        disabled={isUploading}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      >
+                        {Object.entries(parseTypeLabels).map(([value, label]) => (
+                          <option key={value} value={value}>{label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* 描述 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      解析类型
+                      批次描述（可选）
                     </label>
-                    <select
-                      value={parseType}
-                      onChange={(e) => setParseType(e.target.value)}
+                    <textarea
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                       disabled={isUploading}
+                      rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    >
-                      {Object.entries(parseTypeLabels).map(([value, label]) => (
-                        <option key={value} value={value}>{label}</option>
-                      ))}
-                    </select>
+                      placeholder="描述本次上传的文件类型和来源..."
+                    />
                   </div>
-                </div>
 
-                {/* 描述 */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    批次描述（可选）
-                  </label>
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    disabled={isUploading}
-                    rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="描述本次上传的文件类型和来源..."
-                  />
+                  {/* 上传按钮 */}
+                  <button
+                    onClick={handleUpload}
+                    disabled={files.length === 0 || isUploading}
+                    className={cn(
+                      'w-full btn btn-primary py-3 text-base font-medium',
+                      (files.length === 0 || isUploading) && 'opacity-50 cursor-not-allowed'
+                    )}
+                  >
+                    {isUploading ? (
+                      <>
+                        <RefreshCw className="w-5 h-5 mr-2 animate-spin" />
+                        上传中...
+                      </>
+                    ) : (
+                      <>
+                        <FileText className="w-5 h-5 mr-2" />
+                        开始解析 ({files.length} 个文件)
+                      </>
+                    )}
+                  </button>
                 </div>
+              </div>
+            </div>
 
-                {/* 上传按钮 */}
-                <button
-                  onClick={handleUpload}
-                  disabled={files.length === 0 || isUploading}
-                  className={cn(
-                    'w-full btn btn-primary py-3 text-base font-medium',
-                    (files.length === 0 || isUploading) && 'opacity-50 cursor-not-allowed'
-                  )}
-                >
-                  {isUploading ? (
-                    <>
-                      <RefreshCw className="w-5 h-5 mr-2 animate-spin" />
-                      上传中...
-                    </>
+            {/* 右侧：实时状态 */}
+            <div className="space-y-6">
+              <div className="card">
+                <div className="card-header">
+                  <h3 className="text-lg font-semibold text-gray-900">最近任务</h3>
+                </div>
+                <div className="card-body">
+                  {recentTasks.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">
+                      <Clock className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                      <p>暂无最近任务</p>
+                    </div>
                   ) : (
-                    <>
-                      <FileText className="w-5 h-5 mr-2" />
-                      开始解析 ({files.length} 个文件)
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* 右侧：实时状态 */}
-          <div className="space-y-6">
-            <div className="card">
-              <div className="card-header">
-                <h3 className="text-lg font-semibold text-gray-900">最近任务</h3>
-              </div>
-              <div className="card-body">
-                {recentTasks.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
-                    <Clock className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-                    <p>暂无最近任务</p>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {recentTasks.map((task, index) => (
-                      <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <div className={cn(
-                          'w-2 h-2 rounded-full',
-                          task.status === 'completed' ? 'bg-green-500' :
-                            task.status === 'processing' ? 'bg-yellow-500 animate-pulse' :
-                              task.status === 'failed' ? 'bg-red-500' : 'bg-gray-400'
-                        )} />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate">
-                            {task.filename}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {formatTimeAgo(task.updated_at)}
-                          </p>
+                    <div className="space-y-3">
+                      {recentTasks.map((task, index) => (
+                        <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                          <div className={cn(
+                            'w-2 h-2 rounded-full',
+                            task.status === 'completed' ? 'bg-green-500' :
+                              task.status === 'processing' ? 'bg-yellow-500 animate-pulse' :
+                                task.status === 'failed' ? 'bg-red-500' : 'bg-gray-400'
+                          )} />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">
+                              {task.filename}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {formatTimeAgo(task.updated_at)}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* 快速操作 */}
-            <div className="card">
-              <div className="card-header">
-                <h3 className="text-lg font-semibold text-gray-900">快速操作</h3>
-              </div>
-              <div className="card-body space-y-3">
-                <button
-                  onClick={() => window.open('/admin/export/all')}
-                  className="w-full btn btn-outline text-left"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  导出全部数据
-                </button>
-                <button
-                  onClick={() => {
-                    loadStats()
-                    loadRecentTasks()
-                    loadHistory()
-                  }}
-                  className="w-full btn btn-outline text-left"
-                >
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  刷新状态
-                </button>
+              {/* 快速操作 */}
+              <div className="card">
+                <div className="card-header">
+                  <h3 className="text-lg font-semibold text-gray-900">快速操作</h3>
+                </div>
+                <div className="card-body space-y-3">
+                  <button
+                    onClick={() => window.open('/admin/export/all')}
+                    className="w-full btn btn-outline text-left"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    导出全部数据
+                  </button>
+                  <button
+                    onClick={() => {
+                      loadStats()
+                      loadRecentTasks()
+                      loadHistory()
+                      refreshHistory()
+                    }}
+                    className="w-full btn btn-outline text-left"
+                  >
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    刷新状态
+                  </button>
+                  <button
+                    onClick={() => setActiveView('history')}
+                    className="w-full btn btn-outline text-left"
+                  >
+                    <FileText className="w-4 h-4 mr-2" />
+                    查看历史记录
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          /* 历史记录界面 */
+          <HistoryList
+            onViewContent={handleViewContent}
+            refreshTrigger={historyRefreshTrigger}
+          />
+        )}
       </div>
     </div>
   )

@@ -1,0 +1,4 @@
+2025-06-05 22:56:17 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: test_file_id_fix, 质量分数: 0.30, 耗时: 0.03秒
+2025-06-05 22:58:12 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: real_test_file_id, 质量分数: 0.30, 耗时: 0.01秒
+2025-06-05 23:06:20 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: 087b5921-0f48-4171-a005-de5e7c00d382, 质量分数: 0.30, 耗时: 0.01秒
+2025-06-05 23:06:47 | INFO     | utils.logger:log_parsing_complete:133 | 解析完成 - File ID: cb55105c-6fb2-4287-b894-937009b4ddb6, 质量分数: 0.50, 耗时: 0.35秒
